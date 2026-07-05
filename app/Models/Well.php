@@ -2,12 +2,15 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Well extends Model
 {
+    use HasFactory;
+
     protected $fillable = [
-        'code', 'village', 'region', 
+        'code', 'village', 'region',
         'department', 'commune', 'status'
     ];
 
