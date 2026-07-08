@@ -1,4 +1,4 @@
-FROM php:8.3-fpm-alpine
+FROM php:8.4-fpm-alpine
 
 RUN apk add --no-cache nginx supervisor git curl libpng-dev libzip-dev postgresql-dev zip unzip \
     && docker-php-ext-install pdo pdo_pgsql zip gd
