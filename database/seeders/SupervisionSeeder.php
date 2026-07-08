@@ -34,7 +34,7 @@ class SupervisionSeeder extends Seeder
                     'submission_time' => $date . ' ' . rand(7,17) . ':' . rand(10,59) . ':00',
                     'overall_status' => $status,
                     'duration_minutes' => rand(20, 90),
-                    'week_number' => now()->subDays($daysAgo)->weekOfYear,
+                    'week_number' => (int) now()->subDays($daysAgo)->format('W'),
                 ]);
             }
         }
