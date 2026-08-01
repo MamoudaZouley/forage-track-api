@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\AlertController;
 use App\Http\Controllers\Api\DashboardController;
 use App\Http\Controllers\Api\UserController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\SyncController;
 
 // Routes publiques
 Route::post('/login', [AuthController::class, 'login']);
@@ -40,4 +41,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/users', [UserController::class, 'store']);
     Route::put('/users/{user}', [UserController::class, 'update']);
     Route::delete('/users/{user}', [UserController::class, 'destroy']);
+
+    Route::post('/sync', [SyncController::class, 'sync']);
+    Route::get('/sync/status', [SyncController::class, 'status']);
 });

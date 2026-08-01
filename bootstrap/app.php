@@ -14,6 +14,7 @@ return Application::configure(basePath: dirname(__DIR__))
     )
    ->withMiddleware(function (Middleware $middleware) {
     $middleware->statefulApi();
+    $middleware->redirectGuestsTo(fn () => response()->json(['message' => 'Non authentifié'], 401));
 })
     ->withExceptions(function (Exceptions $exceptions): void {
         $exceptions->shouldRenderJsonWhen(
