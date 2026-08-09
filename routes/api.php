@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\DashboardController;
 use App\Http\Controllers\Api\UserController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\SyncController;
+use App\Http\Controllers\Api\MaintenanceController;
 
 // Routes publiques
 Route::post('/login', [AuthController::class, 'login']);
@@ -30,7 +31,8 @@ Route::middleware('auth:sanctum')->group(function () {
     // Supervisions
     Route::get('/supervisions', [SupervisionController::class, 'index']);
     Route::get('/supervisions/{supervision}', [SupervisionController::class, 'show']);
-
+    Route::get('/wells/{well}/maintenances', [MaintenanceController::class, 'byWell']);
+    Route::get('/alerts/wells-status', [AlertController::class, 'wellsStatus']);
     // Alertes
     Route::get('/alerts', [AlertController::class, 'index']);
     Route::get('/alerts/{alert}', [AlertController::class, 'show']);
@@ -44,4 +46,9 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::post('/sync', [SyncController::class, 'sync']);
     Route::get('/sync/status', [SyncController::class, 'status']);
+
+    // Maintenances
+    Route::get('/maintenances', [MaintenanceController::class, 'index']);
+    Route::get('/maintenances/{maintenance}', [MaintenanceController::class, 'show']);
+   
 });

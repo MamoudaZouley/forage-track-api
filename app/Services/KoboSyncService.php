@@ -22,18 +22,33 @@ class KoboSyncService
     }
 
     // ═══════════════════════════════════════
-    // CLIENT HTTP AVEC SSL
+    // CLIENT HTTP
     // ═══════════════════════════════════════
+    private function httpGet(string $url): ?array
+    {
+        $ch = curl_init();
+        curl_setopt_array($ch, [
+            CURLOPT_URL => $url,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_TIMEOUT => 300,
+            CURLOPT_SSL_VERIFYPEER => false,
+            CURLOPT_SSL_VERIFYHOST => false,
+            CURLOPT_HTTPHEADER => [
+                'Authorization: Token ' . $this->token,
+                'Accept: application/json',
+            ],
+        ]);
+        $response = curl_exec($ch);
+        $error = curl_error($ch);
+        curl_close($ch);
 
-private function httpClient()
-{
-    return Http::withHeaders([
-                   'Authorization' => 'Token ' . $this->token,
-               ])
-               ->withOptions([
-                   'verify' => false,
-               ]);
-}
+        if ($error) {
+            Log::error('cURL error', ['error' => $error, 'url' => $url]);
+            return null;
+        }
+
+        return json_decode($response, true);
+    }
     // ═══════════════════════════════════════
     // POINT D'ENTRÉE PRINCIPAL
     // ═══════════════════════════════════════
@@ -50,198 +65,173 @@ private function httpClient()
     // SYNCHRONISATION SUPERVISIONS
     // ═══════════════════════════════════════
 
-  public function syncSupervisions(): array
-{
-    $stats = ['imported' => 0, 'skipped' => 0, 'errors' => 0];
-    $url = "{$this->baseUrl}/{$this->supervisionUid}/data/?format=json&limit=1000";
-    $page = 1;
+    public function syncSupervisions(): array
+    {
+        $stats = ['imported' => 0, 'skipped' => 0, 'errors' => 0];
 
-    // Charge tous les kobo_ids existants en mémoire
-    $existingKoboIds = Supervision::whereNotNull('kobo_id')
-        ->pluck('kobo_id')
-        ->flip()
-        ->toArray();
-
-    // Charge tous les puits existants en mémoire
-    $existingWells = Well::pluck('id', 'code')->toArray();
-
-    while ($url) {
-        echo "Page {$page}...\n";
-        flush();
-
-        $response = $this->httpClient()->timeout(120)->get($url);
-
-        if (!$response->successful()) {
-            echo "Erreur API: " . $response->status() . "\n";
-            break;
+        // Charge tous les puits existants en mémoire
+        $existingWells = [];
+        foreach (Well::all(['id', 'code', 'village']) as $w) {
+            $existingWells[$w->code . '|' . $w->village] = $w->id;
         }
 
-        $data = $response->json();
-        $submissions = $data['results'] ?? [];
-        echo "Page {$page}: " . count($submissions) . " soumissions récupérées\n";
+        // Sites fermés à exclure
+        $excludedWells = ['86', '102', '163'];
+
+        // Première passe — collecte uniquement le kobo_id de la dernière soumission par puits
+        $latestByWell = [];
+
+        $url = "{$this->baseUrl}/{$this->supervisionUid}/data/?format=json&limit=1000&sort=%7B%22_submission_time%22%3A1%7D";
+
+        while ($url) {
+            $data = $this->httpGet($url);
+            if (!$data) break;
+            $next = $data['next'] ?? null;
+
+            foreach ($data['results'] ?? [] as $s) {
+                $wellCode = $s['general_info/well_id'] ?? null;
+                $villageName = $s['general_info/village_name'] ?? null;
+                if (!$wellCode) continue;
+                if (in_array($wellCode, $excludedWells)) continue;
+                // Clé unique = code + village
+                $key = $wellCode . '|' . $villageName;
+                $latestByWell[$key] = $s['_id'];
+            }
+            echo "Page traitée: " . count($data['results'] ?? []) . " soumissions, " . count($latestByWell) . " puits uniques\n";
+            flush();
+
+            unset($data);
+            $url = $next;
+        }
+
+        echo "Dernières supervisions trouvées : " . count($latestByWell) . "\n";
         flush();
 
-        $supervisionsToInsert = [];
-        $wellsToCreate = [];
+        // Deuxième passe — importe chaque soumission individuellement
+       foreach ($latestByWell as $key => $koboId) {
+            [$wellCode, $villageName] = explode('|', $key, 2);
+            try {
+                $url = "{$this->baseUrl}/{$this->supervisionUid}/data/{$koboId}/?format=json";
+                $s = $this->httpGet($url);
+                if ($stats['imported'] === 0 && $stats['skipped'] === 0) {
+                echo "Test kobo_id: " . $koboId . "\n";
+                echo "pump_working: " . ($s['pump_section/pump_working'] ?? 'ABSENT') . "\n";
+                echo "overall_status: " . ($s['overall_status'] ?? 'ABSENT') . "\n";
+                echo "kobo_id in response: " . ($s['_id'] ?? 'ABSENT') . "\n";
+                flush();
+                }
+                if (!$s) {
+                    $stats['errors']++;
+                    continue;
+                }
 
-        foreach ($submissions as $s) {
-            $koboId = $s['_id'];
+                if ($stats['imported'] === 0) {
+                Log::info('Premier submission', ['kobo_id' => $koboId, 'pump_working' => $s['pump_section/pump_working'] ?? 'ABSENT', 'keys' => array_keys($s)]);
+                }
 
-            // Skip si déjà importé
-            if (isset($existingKoboIds[$koboId])) {
-                $stats['skipped']++;
-                continue;
-            }
+                // Crée ou met à jour le puits
+               // Cherche d'abord par code + village exact
+                $well = Well::where('code', $wellCode)
+                            ->where('village', $villageName)
+                            ->first();
 
-            $wellCode = $s['general_info/well_id'] ?? null;
-            $village = $s['general_info/village_name'] ?? 'Inconnu';
+                // Si pas trouvé, cherche par code seul
+                if (!$well) {
+                    $well = Well::where('code', $wellCode)->first();
+                }
 
-            // Crée le puits si nécessaire
-            if ($wellCode && !isset($existingWells[$wellCode])) {
-                $well = Well::firstOrCreate(
-                    ['code' => $wellCode],
-                    [
-                        'village' => $village,
+                // Si toujours pas trouvé, crée le puits
+                if (!$well) {
+                    $well = Well::create([
+                        'code' => $wellCode,
+                        'village' => $villageName ?? 'Inconnu',
                         'region' => 'Inconnu',
                         'department' => 'Inconnu',
                         'commune' => 'Inconnu',
                         'status' => $this->mapStatus($s['overall_status'] ?? 'operational'),
-                    ]
-                );
-                $existingWells[$wellCode] = $well->id;
-            }
-
-            $wellId = $wellCode ? ($existingWells[$wellCode] ?? null) : null;
-
-            // Calcul durée
-          $duration = null;
-          if (!empty($s['start_time']) && !empty($s['end_time'])) {
-             try {
-                $start = \Carbon\Carbon::parse($s['start_time']);
-                $end = \Carbon\Carbon::parse($s['end_time']);
-                $diff = round($end->diffInMinutes($start, false), 1);
-        // Ignore les valeurs négatives ou supérieures à 8 heures (480 min)
-               $duration = ($diff > 0 && $diff <= 480) ? $diff : null;
-               } catch (\Exception $e) {}
-            }
-
-            $now = now()->toDateTimeString();
-            $supervisionsToInsert[] = [
-                'kobo_id' => $koboId,
-                'well_id' => $wellId,
-                'well_code' => $wellCode,
-                'supervisor_name' => $s['_submitted_by'] ?? 'Inconnu',
-                'supervisor_username' => $s['supervisor_username'] ?? $s['_submitted_by'] ?? 'Inconnu',
-                'visit_date' => $s['visit_date'] ?? now()->toDateString(),
-                'submission_time' => $s['_submission_time'] ?? null,
-                'overall_status' => $this->mapStatus($s['overall_status'] ?? 'operational'),
-                'duration_minutes' => $duration,
-                'week_number' => !empty($s['visit_date'])
-                    ? (int) \Carbon\Carbon::parse($s['visit_date'])->format('W')
-                    : null,
-                'created_at' => $now,
-                'updated_at' => $now,
-            ];
-
-            $existingKoboIds[$koboId] = true;
-            $stats['imported']++;
-        }
-
-        // Insertion en masse
-        if (!empty($supervisionsToInsert)) {
-            foreach (array_chunk($supervisionsToInsert, 100) as $chunk) {
-                \Illuminate\Support\Facades\DB::table('supervisions')->insert($chunk);
-            }
-        }
-
-        // Génère les alertes pour cette page
-        $insertedSupervisions = Supervision::whereIn('kobo_id', array_column($supervisionsToInsert, 'kobo_id'))->get()->keyBy('kobo_id');
-        foreach ($submissions as $s) {
-            $koboId = $s['_id'];
-            if (isset($insertedSupervisions[$koboId])) {
-                $supervision = $insertedSupervisions[$koboId];
-                $wellId = $supervision->well_id;
-                if ($wellId) {
-                    $well = Well::find($wellId);
-                    if ($well) {
-                        $this->generateAlerts($supervision, $well, $s);
-                    }
+                    ]);
                 }
+
+                $wellId = $well->id;
+                // Détermine le vrai statut basé sur pump_working ET inverter_working
+                $pumpWorking = $s['pump_section/pump_working'] ?? 'yes';
+                $inverterWorking = $s['solar_section/inverter_working'] ?? 'yes';
+                $overallStatus = $s['overall_status'] ?? 'operational';
+
+                if ($pumpWorking === 'no' || $inverterWorking === 'no') {
+                    $realStatus = 'not_working';
+                } else {
+                    $realStatus = $this->mapStatus($overallStatus);
+                }
+
+                $well->update(['status' => $realStatus]);
+
+                // Calcul durée
+                $duration = null;
+                if (!empty($s['start_time']) && !empty($s['end_time'])) {
+                    try {
+                        $start = \Carbon\Carbon::parse($s['start_time']);
+                        $end = \Carbon\Carbon::parse($s['end_time']);
+                        $diff = round($end->diffInMinutes($start, false), 1);
+                        $duration = ($diff > 0 && $diff <= 480) ? $diff : null;
+                    } catch (\Exception $e) {}
+                }
+
+                $supervisionData = [
+                    'kobo_id' => $koboId,
+                    'well_id' => $wellId,
+                    'well_code' => $wellCode,
+                    'supervisor_name' => $s['_submitted_by'] ?? 'Inconnu',
+                    'supervisor_username' => $s['supervisor_username'] ?? $s['_submitted_by'] ?? 'Inconnu',
+                    'visit_date' => $s['visit_date'] ?? now()->toDateString(),
+                    'submission_time' => $s['_submission_time'] ?? null,
+                    'overall_status' => $this->mapStatus($s['overall_status'] ?? 'operational'),
+                    'duration_minutes' => $duration,
+                    'week_number' => !empty($s['visit_date'])
+                        ? (int) \Carbon\Carbon::parse($s['visit_date'])->format('W')
+                        : null,
+                    'pump_working' => $s['pump_section/pump_working'] ?? null,
+                    'pump_condition' => $s['pump_section/pump_condition'] ?? null,
+                    'inverter_working' => $s['solar_section/inverter_working'] ?? null,
+                    'water_flow' => $s['water_section/water_flow'] ?? null,
+                ];
+
+                $existing = Supervision::where('kobo_id', $koboId)->first();
+                if ($existing) {
+                    $existing->update($supervisionData);
+                    $supervision = $existing;
+                    Alert::where('supervision_id', $supervision->id)->delete();
+                    $stats['skipped']++;
+                } else {
+                    $supervision = Supervision::create($supervisionData);
+                    $stats['imported']++;
+                }
+
+                $this->generateAlerts($supervision, $well, $s);
+
+            } catch (\Exception $e) {
+                $stats['errors']++;
+                Log::error('Supervision sync error', [
+                    'well_code' => $wellCode,
+                    'error' => $e->getMessage()
+                ]);
             }
         }
 
-        echo "Stats: importées={$stats['imported']}, ignorées={$stats['skipped']}, erreurs={$stats['errors']}\n";
-        flush();
-
-        $url = $data['next'] ?? null;
-        $page++;
+        return $stats;
     }
 
-    return $stats;
-}
-    private function processSupervision(array $s): bool
-    {
-        $koboId = $s['_id'];
-
-        if (Supervision::where('kobo_id', $koboId)->exists()) {
-            return false;
-        }
-
-        $wellCode = $s['general_info/well_id'] ?? null;
-        $village = $s['general_info/village_name'] ?? null;
-
-        $well = null;
-        if ($wellCode) {
-            $well = Well::firstOrCreate(
-                ['code' => $wellCode],
-                [
-                    'village' => $village ?? 'Inconnu',
-                    'region' => 'Inconnu',
-                    'department' => 'Inconnu',
-                    'commune' => 'Inconnu',
-                    'status' => $this->mapStatus($s['overall_status'] ?? 'operational'),
-                ]
-            );
-
-            $well->update(['status' => $this->mapStatus($s['overall_status'] ?? 'operational')]);
-        }
-
-        $duration = null;
-        if (!empty($s['start_time']) && !empty($s['end_time'])) {
-            $start = \Carbon\Carbon::parse($s['start_time']);
-            $end = \Carbon\Carbon::parse($s['end_time']);
-            $duration = round($end->diffInMinutes($start), 1);
-        }
-
-        $supervision = Supervision::create([
-            'kobo_id' => $koboId,
-            'well_id' => $well?->id,
-            'well_code' => $wellCode,
-            'supervisor_name' => $s['_submitted_by'] ?? 'Inconnu',
-            'supervisor_username' => $s['supervisor_username'] ?? $s['_submitted_by'] ?? 'Inconnu',
-            'visit_date' => $s['visit_date'],
-            'submission_time' => $s['_submission_time'],
-            'overall_status' => $this->mapStatus($s['overall_status'] ?? 'operational'),
-            'duration_minutes' => $duration,
-            'week_number' => !empty($s['visit_date'])
-                ? (int) \Carbon\Carbon::parse($s['visit_date'])->format('W')
-                : null,
-        ]);
-
-        if ($well) {
-            $this->generateAlerts($supervision, $well, $s);
-        }
-
-        return true;
-    }
+    // ═══════════════════════════════════════
+    // GÉNÉRATION DES ALERTES
+    // ═══════════════════════════════════════
 
     private function generateAlerts(Supervision $supervision, Well $well, array $s): void
     {
         $alerts = [];
 
         // Pompe
-        if (($s['pump_section/pump_condition'] ?? '') === 'bad' ||
-            ($s['pump_section/pump_working'] ?? '') === 'no') {
+        if (($s['pump_section/pump_working'] ?? '') === 'no' ||
+            ($s['pump_section/pump_condition'] ?? '') === 'bad') {
             $alerts[] = [
                 'component' => 'Pump',
                 'issue' => 'Pump not working or in bad condition',
@@ -270,10 +260,20 @@ private function httpClient()
             ];
         }
 
+        // Onduleur / Contrôleur
+        if (($s['solar_section/inverter_working'] ?? '') === 'no') {
+            $alerts[] = [
+                'component' => 'Controller',
+                'issue' => 'Inverter not working',
+                'severity' => 'CRITICAL',
+                'priority_hours' => 4,
+            ];
+        }
+
         // Cuve
         if (($s['tank_section/tank_leak'] ?? '') === 'yes') {
             $alerts[] = [
-                'component' => 'Water Tank',
+                'component' => 'Tank',
                 'issue' => 'Tank leaking — ' . ($s['tank_section/leaktank_location'] ?? ''),
                 'severity' => 'HIGH',
                 'priority_hours' => 24,
@@ -291,7 +291,7 @@ private function httpClient()
             ];
         }
 
-        // Clôture
+        // Clôture / Sécurité
         if (($s['infrastructure_section/fence_condition'] ?? '') === 'bad') {
             $alerts[] = [
                 'component' => 'Security',
@@ -301,7 +301,7 @@ private function httpClient()
             ];
         }
 
-        // Fuite d'eau
+        // Fuite d'eau / Tuyaux
         if (($s['water_section/water_leak'] ?? '') === 'yes') {
             $alerts[] = [
                 'component' => 'Pipes',
@@ -335,14 +335,11 @@ private function httpClient()
         $url = "{$this->baseUrl}/{$this->maintenanceUid}/data/?format=json&limit=1000";
 
         while ($url) {
-            $response = $this->httpClient()->get($url);
-
-            if (!$response->successful()) {
-                Log::error('Kobo API error (maintenances)', ['status' => $response->status()]);
+            $data = $this->httpGet($url);
+            if (!$data) {
+                Log::error('Kobo API error (maintenances)');
                 break;
             }
-
-            $data = $response->json();
             $submissions = $data['results'] ?? [];
 
             foreach ($submissions as $submission) {

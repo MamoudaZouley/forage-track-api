@@ -9,10 +9,11 @@ class Supervision extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'well_id', 'supervisor_name', 'supervisor_username',
+   protected $fillable = [
+        'kobo_id', 'well_id', 'well_code', 'supervisor_name', 'supervisor_username',
         'visit_date', 'submission_time', 'overall_status',
-        'duration_minutes', 'week_number'
+        'duration_minutes', 'week_number',
+        'pump_working', 'pump_condition', 'inverter_working', 'water_flow'
     ];
 
     public function well()
