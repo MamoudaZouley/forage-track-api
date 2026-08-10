@@ -11,7 +11,8 @@ class Well extends Model
 
     protected $fillable = [
         'code', 'village', 'region',
-        'department', 'commune', 'status'
+        'department', 'commune', 'status',
+        'supervisor', 'zone'
     ];
 
     public function supervisions()
