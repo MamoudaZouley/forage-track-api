@@ -369,20 +369,26 @@ class KoboSyncService
             return false;
         }
 
-        $wellCode = $m['general_info/well_id'] ?? null;
+        // Gère les deux versions du formulaire
+        $wellCode = $m['general_info/well_id'] ?? $m['well_section/well_id'] ?? null;
+        $village = $m['general_info/village_name'] ?? $m['well_section/village_name'] ?? null;
+        $region = $m['general_info/region'] ?? null;
+        $maintenanceType = $m['general_info/maintenance_type'] ?? $m['well_section/maintenance_type'] ?? null;
+        $requestSource = $m['general_info/request_source'] ?? $m['well_section/request_source'] ?? null;
+
         $well = $wellCode ? Well::where('code', $wellCode)->first() : null;
 
         Maintenance::create([
             'kobo_id' => $koboId,
             'well_id' => $well?->id,
             'well_code' => $wellCode ?? 'Inconnu',
-            'village' => $m['general_info/village_name'] ?? null,
-            'region' => $m['general_info/region'] ?? null,
+            'village' => $village ?? ($well?->village),
+            'region' => $region ?? null,
             'technician_username' => $m['technician_username'] ?? $m['_submitted_by'] ?? null,
             'team_leader_name' => $m['general_info/team_leader_name'] ?? null,
             'visit_date' => $m['visit_date'],
-            'maintenance_type' => $m['general_info/maintenance_type'] ?? null,
-            'request_source' => $m['general_info/request_source'] ?? null,
+            'maintenance_type' => $maintenanceType,
+            'request_source' => $requestSource,
             'work_performed' => $m['maintenance_work/work_performed'] ?? null,
             'work_description' => $m['maintenance_work/work_description'] ?? null,
             'parts_used' => $m['maintenance_work/parts_used'] ?? null,
