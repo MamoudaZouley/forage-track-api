@@ -16,6 +16,8 @@ class Maintenance extends Model
         'work_description', 'parts_used', 'work_duration',
         'final_result', 'pump_condition_before', 'pump_condition_after',
         'water_flow_before', 'water_flow_after', 'needs_followup',
+        'components_changed', 'qty_pump', 'qty_controller',
+        'qty_solar_panel', 'qty_pipes', 'qty_taps', 'qty_tank', 'qty_other',
         'observations', 'submission_time',
     ];
 

@@ -229,19 +229,31 @@ class KoboSyncService
     {
         $alerts = [];
 
-        // Pompe
-        if (($s['pump_section/pump_working'] ?? '') === 'no' ||
-            ($s['pump_section/pump_condition'] ?? '') === 'bad') {
+       // Pompe — deux conditions séparées
+        if (($s['pump_section/pump_working'] ?? '') === 'no') {
             $alerts[] = [
                 'component' => 'Pump',
-                'issue' => 'Pump not working or in bad condition',
+                'issue' => 'Pump not working',
                 'severity' => 'CRITICAL',
                 'priority_hours' => 4,
             ];
-        } elseif (($s['pump_section/pump_condition'] ?? '') === 'average') {
+        }
+       
+
+       
+        // Sécurité — garde absent
+        if (($s['guard_section/guard_present'] ?? '') === 'no') {
             $alerts[] = [
-                'component' => 'Pump',
-                'issue' => 'Pump in average condition',
+                'component' => 'Security',
+                'issue' => 'Guard absent',
+                'severity' => 'MEDIUM',
+                'priority_hours' => 72,
+            ];
+        }
+        if (($s['infrastructure_section/fence_condition'] ?? '') === 'bad') {
+            $alerts[] = [
+                'component' => 'Security',
+                'issue' => 'Fence in bad condition',
                 'severity' => 'HIGH',
                 'priority_hours' => 24,
             ];
@@ -401,6 +413,14 @@ class KoboSyncService
             'needs_followup' => ($m['followup/needs_followup'] ?? 'no') === 'yes',
             'observations' => $m['followup/observations'] ?? null,
             'submission_time' => $m['_submission_time'] ?? null,
+            'components_changed' => $m['maintenance_work/components_changed'] ?? null,
+            'qty_pump' => isset($m['maintenance_work/pump_details/pump_quantity']) ? (int)$m['maintenance_work/pump_details/pump_quantity'] : null,
+            'qty_controller' => isset($m['maintenance_work/controllerr']) ? (int)$m['maintenance_work/controllerr'] : null,
+            'qty_solar_panel' => isset($m['maintenance_work/solar_details/solar_quantity']) ? (int)$m['maintenance_work/solar_details/solar_quantity'] : null,
+            'qty_pipes' => null,
+            'qty_taps' => isset($m['maintenance_work/taps']) ? (int)$m['maintenance_work/taps'] : null,
+            'qty_tank' => isset($m['maintenance_work/wellhead']) ? (int)$m['maintenance_work/wellhead'] : null,
+            'qty_other' => isset($m['maintenance_work/brakerr']) ? (int)$m['maintenance_work/brakerr'] : null,
         ]);
 
         return true;
