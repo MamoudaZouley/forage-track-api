@@ -46,6 +46,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::post('/sync', [SyncController::class, 'sync']);
     Route::get('/sync/status', [SyncController::class, 'status']);
+    Route::get('/maintenances/technician-stats', [MaintenanceController::class, 'technicianStats']);
     Route::get('/maintenances/stats', [MaintenanceController::class, 'stats']);
 
     // Maintenances
