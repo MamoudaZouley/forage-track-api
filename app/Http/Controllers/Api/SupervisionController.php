@@ -108,10 +108,15 @@ class SupervisionController extends Controller
                     ->whereNotIn('code', ['86', '102'])
                     ->get();
 
+        // Charge les puits depuis la base — correspondance par code
         $assignmentMap = [];
+        $wells = Well::whereNotNull('supervisor')
+                    ->where('supervisor', '!=', 'pro_m')
+                    ->whereNotIn('code', ['86', '102'])
+                    ->get(['supervisor', 'code']);
+
         foreach ($wells as $w) {
-            $key = strtolower(trim($w->supervisor . '|' . $w->village));
-            $assignmentMap[$w->supervisor][] = $key;
+            $assignmentMap[$w->supervisor][] = $w->code;
         }
 
         // Registre des superviseurs
@@ -151,11 +156,9 @@ class SupervisionController extends Controller
             
             // Ignore si puits non assigné à ce superviseur
            // Vérifie si le puits est assigné à ce superviseur par village
-            $visitKey = strtolower(trim($sup . '|' . ($s['village'] ?? '')));
-            $supAssigned = $assignmentMap[$sup] ?? [];
-            if (!in_array($visitKey, $supAssigned)) {
-                continue;
-            }
+           if (!isset($assignmentMap[$sup]) || !in_array($well, $assignmentMap[$sup])) {
+              continue;
+           }
             $date = \Carbon\Carbon::parse($s['visit_date']);
             $day = (int) $date->format('d');
             $week = $getWeek($day);
@@ -172,7 +175,7 @@ class SupervisionController extends Controller
             if (!$ruleFailed) {
                 $lastKey = "{$sup}|{$well}";
                 if (isset($lastValid[$lastKey])) {
-                    $gap = $date->diffInDays(\Carbon\Carbon::parse($lastValid[$lastKey]));
+                    $gap = abs($date->diffInDays(\Carbon\Carbon::parse($lastValid["{$sup}|{$well}"])));
                     if ($gap < 4) {
                         $ruleFailed = "GAP_TOO_SHORT({$gap}d)";
                     }
