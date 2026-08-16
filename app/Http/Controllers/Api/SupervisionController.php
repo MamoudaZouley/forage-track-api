@@ -91,8 +91,15 @@ class SupervisionController extends Controller
         $year = substr($month, 0, 4);
         $monthNum = substr($month, 5, 2);
 
-        // Toutes les supervisions du mois
-      // Toutes les soumissions du mois depuis l'historique complet
+        // Fonction de normalisation des villages
+        $normalize = function($str) {
+            $str = mb_strtolower(trim($str ?? ''));
+            $search = ['é','è','ê','ë','à','â','ä','î','ï','ô','ö','ù','û','ü','ç','ñ','É','È','Ê','À','Â','Î','Ô','Ù','Û','Ç'];
+            $replace = ['e','e','e','e','a','a','a','i','i','o','o','u','u','u','c','n','e','e','e','a','a','i','o','u','u','c'];
+            return str_replace($search, $replace, $str);
+        };
+
+        // Toutes les soumissions du mois depuis l'historique complet
         $supervisions = \Illuminate\Support\Facades\DB::table('supervision_history')
             ->whereYear('visit_date', $year)
             ->whereMonth('visit_date', $monthNum)
@@ -102,21 +109,18 @@ class SupervisionController extends Controller
             ->get()
             ->map(fn($s) => (array) $s);
 
-        // Tous les puits assignés (hors pro_m et fermés)
-        $wells = Well::whereNotNull('supervisor')
-                    ->where('supervisor', '!=', 'pro_m')
-                    ->whereNotIn('code', ['86', '102'])
-                    ->get();
-
-        // Charge les puits depuis la base — correspondance par code
+        // Charge les puits avec correspondance village normalisé
         $assignmentMap = [];
         $wells = Well::whereNotNull('supervisor')
                     ->where('supervisor', '!=', 'pro_m')
                     ->whereNotIn('code', ['86', '102'])
-                    ->get(['supervisor', 'code']);
+                    ->get(['supervisor', 'code', 'village']);
 
         foreach ($wells as $w) {
-            $assignmentMap[$w->supervisor][] = $w->code;
+            $assignmentMap[$w->supervisor][] = [
+                'code' => $w->code,
+                'village_norm' => $normalize($w->village),
+            ];
         }
 
         // Registre des superviseurs
@@ -142,23 +146,30 @@ class SupervisionController extends Controller
             'sup33' => ['name' => 'Ali Oumarou Dan Dango', 'zone' => 'Dakoro-Kornaka'],
         ];
 
-            // Fonction semaine
-            $getWeek = fn($day) => $day <= 7 ? 1 : ($day <= 14 ? 2 : ($day <= 21 ? 3 : 4));
+        // Fonction semaine
+        $getWeek = fn($day) => $day <= 7 ? 1 : ($day <= 14 ? 2 : ($day <= 21 ? 3 : 4));
 
-            // Validation exacte comme le Python
-            $validated = [];
-            $lastValid = []; // [sup|well => date]
-            $visitsByWellWeek = []; // [sup|well|week => true]
+        // Validation exacte comme le Python
+        $validated = [];
+        $lastValid = [];
+        $visitsByWellWeek = [];
 
-            foreach ($supervisions as $s) {
+        foreach ($supervisions as $s) {
             $sup = $s['supervisor_username'];
-            $well = $s['well_code'];
-            
-            // Ignore si puits non assigné à ce superviseur
-           // Vérifie si le puits est assigné à ce superviseur par village
-           if (!isset($assignmentMap[$sup]) || !in_array($well, $assignmentMap[$sup])) {
-              continue;
-           }
+
+            // Vérifie par village normalisé
+            $villageNorm = $normalize($s['village'] ?? '');
+            $supWells = $assignmentMap[$sup] ?? [];
+            $matchedCode = null;
+            foreach ($supWells as $sw) {
+                if ($sw['village_norm'] === $villageNorm) {
+                    $matchedCode = $sw['code'];
+                    break;
+                }
+            }
+            if (!$matchedCode) continue;
+            $well = $matchedCode;
+
             $date = \Carbon\Carbon::parse($s['visit_date']);
             $day = (int) $date->format('d');
             $week = $getWeek($day);
@@ -175,7 +186,7 @@ class SupervisionController extends Controller
             if (!$ruleFailed) {
                 $lastKey = "{$sup}|{$well}";
                 if (isset($lastValid[$lastKey])) {
-                    $gap = abs($date->diffInDays(\Carbon\Carbon::parse($lastValid["{$sup}|{$well}"])));
+                    $gap = abs($date->diffInDays(\Carbon\Carbon::parse($lastValid[$lastKey])));
                     if ($gap < 4) {
                         $ruleFailed = "GAP_TOO_SHORT({$gap}d)";
                     }
@@ -200,8 +211,7 @@ class SupervisionController extends Controller
         $validatedCollection = collect($validated);
 
         // KPI par superviseur
-        $stats = collect($supervisorRegistry)->map(function($info, $supUsername) use ($validatedCollection, $assignmentMap, $getWeek) {
-            $assigned = $assignmentMap[$supUsername] ?? [];
+        $stats = collect($supervisorRegistry)->map(function($info, $supUsername) use ($validatedCollection, $assignmentMap) {
             $nWells = count($assignmentMap[$supUsername] ?? []);
             $target = $nWells * 4;
 
