@@ -27,6 +27,7 @@ class ImportWellsFromCsv extends Command
         $updated = 0;
         $skipped = 0;
         $notFound = 0;
+        $created = 0;
 
         $excludedSupervisors = ['pro_m'];
         $excludedCodes = ['86', '102'];
@@ -53,34 +54,70 @@ class ImportWellsFromCsv extends Command
 
             // Zone depuis superviseur
             $supervisorZones = [
-                'sup14' => 'Aguie-Gazaoua',
-                'sup15' => 'Bader Goula',
-                'sup16' => 'Bermo',
-                'sup17' => 'Dan Goulbi',
-                'sup18' => 'Guidan Roumdji',
-                'sup19' => 'Kornaka',
-                'sup20' => 'Mayahi',
-                'sup21' => 'Mayahi Middle',
-                'sup22' => 'Mayahi North',
-                'sup23' => 'Mayahi West',
-                'sup24' => 'Dakoro Nord',
-                'sup25' => 'Ourafane North',
-                'sup26' => 'Dakoro (South+Nord)',
-                'sup27' => 'Mayahi Sud',
-                'sup28' => 'Ourafane South',
-                'sup29' => 'Tchadoua Sud',
-                'sup30' => 'Tchadoua',
-                'sup31' => 'Tessaoua',
+            'sup14' => 'Aguie-Gazaoua',
+            'sup15' => 'Bader Goula',
+            'sup16' => 'Bermo',
+            'sup17' => 'Dan Goulbi',
+            'sup18' => 'Guidan Roumdji',
+            'sup19' => 'Kornaka',
+            'sup20' => 'Mayahi',
+            'sup21' => 'Mayahi Middle',
+            'sup22' => 'Mayahi North',
+            'sup23' => 'Mayahi West',
+            'sup24' => 'Dakoro Nord',
+            'sup25' => 'Ourafane North',
+            'sup26' => 'Dakoro (South+Nord)',
+            'sup27' => 'Mayahi Sud',
+            'sup28' => 'Ourafane South',
+            'sup29' => 'Tchadoua Sud',
+            'sup30' => 'Tchadoua',
+            'sup31' => 'Tessaoua',
+            'sup33' => 'Dakoro-Kornaka',
+          ];
+
+        $supervisorNames = [
+            'sup14' => 'Inoussa Amadou',
+            'sup15' => 'Abdoul Kader Aboubacar',
+            'sup16' => 'Oumarou Ousseini',
+            'sup17' => 'Soupia Oumarou',
+            'sup18' => 'Mahamadou Bello Ali',
+            'sup19' => 'Habibou Souleymane',
+            'sup20' => 'Nassirou Abdou Goube',
+            'sup21' => 'Abdoul Wahab Issoufou',
+            'sup22' => 'Ousseini Abdou',
+            'sup23' => 'Laouali Yacouba',
+            'sup24' => 'Hayya Moussa',
+            'sup25' => 'Maman Hamissou Mani',
+            'sup26' => 'Ibrahim Mahaman Dan Jari',
+            'sup27' => 'Laouali Garba',
+            'sup28' => 'Hassane Daouda',
+            'sup29' => 'ABOU Soufia Rabiou Nomaou',
+            'sup30' => 'Daouda Amani Ousmane',
+            'sup31' => 'Djafar Maty',
+            'sup33' => 'Ali Oumarou Dan Dango',
             ];
             $zone = $supervisorZones[$supervisor] ?? 'Inconnu';
+            
 
             // Cherche le puits dans la base par code
             $well = Well::where('code', $code)->first();
 
             if (!$well) {
-                $notFound++;
-                continue;
-            }
+            // Crée le puits s'il n'existe pas
+            Well::create([
+                'code' => $code,
+                'village' => $village ?: 'Inconnu',
+                'region' => $region ?: 'Inconnu',
+                'department' => $department ?: 'Inconnu',
+                'commune' => $commune ?: 'Inconnu',
+                'status' => 'operational',
+                'supervisor' => $supervisor ?: null,
+                'supervisor_name' => $supervisorNames[$supervisor] ?? null,
+                'zone' => $zone !== 'Inconnu' ? $zone : null,
+            ]);
+            $created++;
+            continue;
+}
 
             // Enrichit uniquement — ne crée pas de nouveau puits
             $updateData = [
@@ -103,10 +140,9 @@ class ImportWellsFromCsv extends Command
             $updated++;
             }
         fclose($handle);
-
         $this->table(
-            ['Mis à jour', 'Ignorés', 'Non trouvés en base'],
-            [[$updated, $skipped, $notFound]]
+            ['Mis à jour', 'Créés', 'Ignorés', 'Non trouvés en base'],
+            [[$updated, $created, $skipped, $notFound]]
         );
 
         $this->info('Import terminé !');

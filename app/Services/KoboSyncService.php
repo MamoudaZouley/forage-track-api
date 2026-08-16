@@ -57,6 +57,7 @@ class KoboSyncService
     {
         return [
             'supervisions' => $this->syncSupervisions(),
+            'supervision_history' => $this->syncSupervisionHistory(),
             'maintenances' => $this->syncMaintenances(),
         ];
     }
@@ -220,8 +221,64 @@ class KoboSyncService
 
         return $stats;
     }
+    public function syncSupervisionHistory(): array
+    {
+        $stats = ['imported' => 0, 'skipped' => 0, 'errors' => 0];
 
-    // ═══════════════════════════════════════
+        $existingIds = \Illuminate\Support\Facades\DB::table('supervision_history')->pluck('kobo_id')->flip()->toArray();
+
+        $url = "{$this->baseUrl}/{$this->supervisionUid}/data/?format=json&limit=1000&sort=%7B%22_submission_time%22%3A1%7D";
+
+        while ($url) {
+            $data = $this->httpGet($url);
+            if (!$data) break;
+            $next = $data['next'] ?? null;
+
+            $toInsert = [];
+            $now = now()->toDateTimeString();
+
+            foreach ($data['results'] ?? [] as $s) {
+                $koboId = $s['_id'];
+                if (isset($existingIds[$koboId])) {
+                    $stats['skipped']++;
+                    continue;
+                }
+
+                $wellCode = $s['general_info/well_id'] ?? null;
+                $visitDate = $s['visit_date'] ?? null;
+                if (!$wellCode || !$visitDate) continue;
+
+                $day = (int) date('d', strtotime($visitDate));
+                $weekNum = $day <= 7 ? 1 : ($day <= 14 ? 2 : ($day <= 21 ? 3 : 4));
+
+                $toInsert[] = [
+                    'kobo_id' => $koboId,
+                    'well_code' => $wellCode,
+                    'village' => $s['general_info/village_name'] ?? null,
+                    'supervisor_username' => $s['supervisor_username'] ?? $s['_submitted_by'] ?? null,
+                    'visit_date' => $visitDate,
+                    'week_number' => $weekNum,
+                    'overall_status' => $s['overall_status'] ?? 'operational',
+                    'created_at' => $now,
+                    'updated_at' => $now,
+                ];
+                $existingIds[$koboId] = true;
+                $stats['imported']++;
+            }
+
+            if (!empty($toInsert)) {
+                foreach (array_chunk($toInsert, 200) as $chunk) {
+                    \Illuminate\Support\Facades\DB::table('supervision_history')->insert($chunk);
+                }
+            }
+
+            unset($data);
+            $url = $next;
+        }
+
+        return $stats;
+    }
+        // ═══════════════════════════════════════
     // GÉNÉRATION DES ALERTES
     // ═══════════════════════════════════════
 

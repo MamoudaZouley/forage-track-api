@@ -33,7 +33,16 @@ class SyncKoboData extends Command
             [[$mainStats['imported'], $mainStats['skipped'], $mainStats['errors']]]
         );
 
+        $this->info('Synchronisation de l\'historique des supervisions...');
+        $histStats = $this->koboSync->syncSupervisionHistory();
+        $this->table(
+            ['Importées', 'Ignorées', 'Erreurs'],
+            [[$histStats['imported'], $histStats['skipped'], $histStats['errors']]]
+        );
+
         $this->info('Synchronisation terminée !');
         return Command::SUCCESS;
+
+
     }
 }
