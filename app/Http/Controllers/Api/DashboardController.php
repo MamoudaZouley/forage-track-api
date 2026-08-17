@@ -34,7 +34,25 @@ class DashboardController extends Controller
         }
 
         $wellsNotWorking = Well::where('status', 'not_working')->count();
-        $totalWells = Well::count();
+       // Compte les puits depuis wells_merged_utf8.csv (source de vérité)
+        $totalWells = 0;
+        $csvPath = base_path('wells_merged_utf8.csv');
+        if (file_exists($csvPath)) {
+            $f = fopen($csvPath, 'r');
+            $header = array_map('trim', fgetcsv($f, 0, ',', '"', ''));
+            $idx = array_flip($header);
+            while (($row = fgetcsv($f, 0, ',', '"', '')) !== false) {
+                $row = array_map('trim', $row);
+                $code = $row[$idx['name']] ?? null;
+                $supervisor = $row[$idx['supervisor']] ?? null;
+                if ($code && $supervisor && $supervisor !== 'pro_m' && !in_array($code, ['86', '102', '163'])) {
+                    $totalWells++;
+                }
+            }
+            fclose($f);
+        }
+        $wellsNotWorking = Well::where('status', 'not_working')->count();
+        $operationalWells = $totalWells - $wellsNotWorking;
         $operationalWells = $totalWells - $wellsNotWorking;
 
         return response()->json([

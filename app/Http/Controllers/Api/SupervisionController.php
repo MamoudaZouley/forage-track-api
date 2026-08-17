@@ -115,7 +115,7 @@ class SupervisionController extends Controller
 
         // Charge les puits avec correspondance village normalisé
        // Charge les puits depuis wells_merged_utf8.csv (source de vérité)
-        $csvPath = base_path('wells_merged_utf8.csv');
+        $csvPath = base_path('wells_kpi.csv');
         $assignmentMap = [];
         if (file_exists($csvPath)) {
             $f = fopen($csvPath, 'r');
@@ -167,35 +167,25 @@ class SupervisionController extends Controller
 
         foreach ($supervisions as $s) {
             $sup = $s['supervisor_username'];
+            if (!isset($supervisorRegistry[$sup])) continue;
 
-            // Vérifie par village normalisé
-            $villageNorm = $normalize($s['village'] ?? '');
-            $supWells = $assignmentMap[$sup] ?? [];
-            $matchedCode = null;
-            foreach ($supWells as $sw) {
-                if ($sw['village_norm'] === $villageNorm) {
-                    $matchedCode = $sw['code'];
-                    break;
-                }
-            }
-            if (!$matchedCode) continue;
-            $well = $matchedCode;
-
+            $village = $s['village'] ?? '';
+            $villageNorm = $normalize($village);
             $date = \Carbon\Carbon::parse($s['visit_date']);
             $day = (int) $date->format('d');
             $week = $getWeek($day);
 
             $ruleFailed = null;
 
-            // Règle 1 : doublon même semaine
-            $weekKey = "{$sup}|{$well}|{$week}";
+            // Règle 1 : doublon même semaine (même sup, même village, même semaine)
+            $weekKey = "{$sup}|{$villageNorm}|{$week}";
             if (isset($visitsByWellWeek[$weekKey])) {
                 $ruleFailed = 'DUPLICATE_SAME_WEEK';
             }
 
-            // Règle 2 : gap < 4 jours
+            // Règle 2 : gap < 4 jours (même sup, même village)
             if (!$ruleFailed) {
-                $lastKey = "{$sup}|{$well}";
+                $lastKey = "{$sup}|{$villageNorm}";
                 if (isset($lastValid[$lastKey])) {
                     $gap = abs($date->diffInDays(\Carbon\Carbon::parse($lastValid[$lastKey])));
                     if ($gap < 4) {
@@ -206,12 +196,12 @@ class SupervisionController extends Controller
 
             if (!$ruleFailed) {
                 $visitsByWellWeek[$weekKey] = true;
-                $lastValid["{$sup}|{$well}"] = $date->format('Y-m-d');
+                $lastValid["{$sup}|{$villageNorm}"] = $date->format('Y-m-d');
             }
 
             $validated[] = [
                 'sup' => $sup,
-                'well' => $well,
+                'village' => $village,
                 'date' => $date->format('Y-m-d'),
                 'week' => $week,
                 'is_valid' => !$ruleFailed,

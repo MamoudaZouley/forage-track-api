@@ -1,0 +1,347 @@
+name,label,label::French,region,village_name,supervisor
+1,00001 - Karoubouni,00001 - Karoubouni,MARADI,Karoubouni,sup30
+2,00002 - Dajin amia,00002 - Dajin amia,MARADI,Dajin amia,sup29
+3,00003 - Ajiefa,00003 - Ajiefa,MARADI,Ajiefa,sup18
+4,00004 - Galoube,00004 - Galoube,MARADI,Galoube,sup18
+5,00005 - Angoual Tambari,00005 - Angoual Tambari,MARADI,Angoual Tambari,sup14
+6,00006 - Danjiko,00006 - Danjiko,MARADI,Danjiko,sup14
+7,00007 - Chiragagou,00007 - Chiragagou,MARADI,Chiragagou,sup14
+8,00008 - Dourgou,00008 - Dourgou,MARADI,Dourgou,sup14
+9,00009 - Guidane Alkou,00009 - Guidane Alkou,MARADI,Guidane Alkou,sup29
+10,00010 - Takalmawa,00010 - Takalmawa,MARADI,Takalmawa,sup29
+11,00011 - Kongomi,00011 - Kongomi,MARADI,Kongomi,sup14
+12,00012 - Soumbitta,00012 - Soumbitta,MARADI,Soumbitta,sup29
+13,00013 - Mourin Dan Farou,00013 - Mourin Dan Farou,MARADI,Mourin Dan Farou,sup29
+14,00014 - Kahin chantali,00014 - Kahin chantali,MARADI,Kahin chantali,sup29
+15,00015 - Maisanho,00015 - Maisanho,MARADI,Maisanho,sup29
+16,00016 - Guidane Roro,00016 - Guidane Roro,MARADI,Guidane Roro,sup29
+17,00017 - Guidane Baje,00017 - Guidane Baje,MARADI,Guidane Baje,sup29
+18,00018 - Douma 2,00018 - Douma 2,MARADI,Douma 2,sup29
+19,00019 - Guidane akali,00019 - Guidane akali,MARADI,Guidane akali,sup18
+20,00020 - Guidane Nakaoura,00020 - Guidane Nakaoura,MARADI,Guidane Nakaoura,sup20
+21,00021 - Allah kabani,00021 - Allah kabani,MARADI,Allah kabani,sup18
+23,00023 - kouka kawadi,00023 - kouka kawadi,MARADI,kouka kawadi,sup18
+24,00024 - Guidane Gobro,00024 - Guidane Gobro,MARADI,Guidane Gobro,sup18
+25,00025 - Madaoua Milli,00025 - Madaoua Milli,MARADI,Madaoua Milli,sup14
+26,00026 - Rigia Riga,00026 - Rigia Riga,MARADI,Rigia Riga,sup14
+27,00027 - Guidane Chantali,00027 - Guidane Chantali,MARADI,Guidane Chantali,sup14
+28,00028 - Garin Bizoo,00028 - Garin Bizoo,MARADI,Garin Bizoo,sup18
+29,00029 - Masko,00029 - Masko,MARADI,Masko,sup18
+30,00030 - kabra,00030 - kabra,MARADI,kabra,sup18
+31,00031 - Laouni,00031 - Laouni,MARADI,Laouni,sup14
+32,00032 - May Dan Sanfo,00032 - May Dan Sanfo,MARADI,May Dan Sanfo,sup14
+33,00033 - Garin koutoubo,00033 - Garin koutoubo,MARADI,Garin koutoubo,sup18
+34,00034 - Dan Korai,00034 - Dan Korai,MARADI,Dan Korai,sup30
+35,00035 - Koubdo Soufoua,00035 - Koubdo Soufoua,MARADI,Koubdo Soufoua,sup31
+36,00036 - Guidan Zoudi,00036 - Guidan Zoudi,MARADI,Guidan Zoudi,sup30
+37,00037 - Dan Aicha,00037 - Dan Aicha,MARADI,Dan Aicha,sup30
+41,00041 - Dogon Makotchi,00041 - Dogon Makotchi,MARADI,Dogon Makotchi,sup15
+39,00039 - Naki Fada,00039 - Naki Fada,MARADI,Naki Fada,sup30
+40,00040 - Fadadou,00040 - Fadadou,MARADI,Fadadou,sup16
+43,00043 - Ibbo,00043 - Ibbo,MARADI,Ibbo,sup15
+44,00044 - Guidan Aman,00044 - Guidan Aman,MARADI,Guidan Aman,sup15
+118,00118 - Garin Aman Tinaou,00118 - Garin Aman Tinaou,MARADI,Garin Aman Tinaou,sup15
+45,00045 - Koutchatcha,00045 - Koutchatcha,MARADI,Koutchatcha,sup26
+46,00046 - Tokou Kala,00046 - Tokou Kala,MARADI,Tokou Kala,sup26
+47,00047 - Dawdawa,00047 - Dawdawa,MARADI,Dawdawa,sup16
+48,00048 - Goda2- Guidan Kounao,00048 - Goda2- Guidan Kounao,MARADI,Goda2- Guidan Kounao,sup26
+49,00049 - Danby Dan Aya,00049 - Danby Dan Aya,MARADI,Danby Dan Aya,sup26
+50,00050 - Ulyami Sami,00050 - Ulyami Sami,MARADI,Ulyami Sami,sup26
+51,00051 - Dantchiaco,00051 - Dantchiaco,MARADI,Dantchiaco,sup26
+119,00119 - Guidan Dan Osmane,00119 - Guidan Dan Osmane,MARADI,Guidan Dan Osmane,sup15
+53,00053 - Dangali,00053 - Dangali,MARADI,Dangali,sup30
+54,00054 - Dan Maimouna,00054 - Dan Maimouna,MARADI,Dan Maimouna,sup30
+120,00120 - Maymoulaki,00120 - Maymoulaki,MARADI,Maymoulaki,sup15
+121,00121 - Dan Nari Roro,00121 - Dan Nari Roro,MARADI,Dan Nari Roro,sup15
+57,00057 - kordosso,00057 - kordosso,MARADI,kordosso,sup18
+58,00058 - Maimagaria,00058 - Maimagaria,MARADI,Maimagaria,sup14
+122,00122 - Rahim Damou,00122 - Rahim Damou,MARADI,Rahim Damou,sup15
+123,00123 - Achagamandi,00123 - Achagamandi,MARADI,Achagamandi,sup15
+62,00062 - Guidane Tangno,00062 - Guidane Tangno,MARADI,Guidane Tangno,sup26
+63,00063 - Dan Biri Maynasora,00063 - Dan Biri Maynasora,MARADI,Dan Biri Maynasora,sup26
+64,00064 - Achi Basa,00064 - Achi Basa,MARADI,Achi Basa,sup26
+65,00065 - Tchintchya,00065 - Tchintchya,MARADI,Tchintchya,sup26
+66,00066 - Dachel Barmo,00066 - Dachel Barmo,MARADI,Dachel Barmo,sup26
+67,00067 - Guidane Moussa Koundou,00067 - Guidane Moussa Koundou,MARADI,Guidane Moussa Koundou,sup26
+68,00068 - Dan Daji,00068 - Dan Daji,MARADI,Dan Daji,sup26
+69,00069 - Eloum,00069 - Eloum,MARADI,Eloum,sup26
+70,00070 - Dan Marke Gaya,00070 - Dan Marke Gaya,MARADI,Dan Marke Gaya,sup26
+71,00071 - Kakali,00071 - Kakali,MARADI,Kakali,sup26
+72,00072 - Guidane Tangno,00072 - Guidane Tangno ,MARADI,Guidane Tangno,sup14
+73,00073 - Guidane Bizoo Dan Bako,00073 - Guidane Bizoo Dan Bako,MARADI,Guidane Bizoo Dan Bako,sup26
+74,00074 - Daouya,00074 - Daouya,MARADI,Daouya,sup26
+75,00075 - Dan Amayria,00075 - Dan Amayria,MARADI,Dan Amayria,sup26
+76,00076 - Guintichire,00076 - Guintichire,MARADI,Guintichire,sup26
+77,00077 - Kandala,00077 - Kandala,MARADI,Kandala,sup26
+125,00125 - Bawore,00125 - Bawore,MARADI,Bawore,sup15
+79,00079 - Tounafafi Zougou,00079 - Tounafafi Zougou,MARADI,Tounafafi Zougou,sup26
+80,00080 - Beche,00080 - Beche,MARADI,Beche,sup26
+81,00081 - Farara,00081 - Farara,MARADI,Farara,sup26
+82,00082 - In Walla  ,00082 - In Walla  ,MARADI,In Walla  ,sup20
+83,00083 - Salifawa,00083 - Salifawa,MARADI,Salifawa,sup21
+84,00084 - San Gayou,00084 - San Gayou,MARADI,San Gayou,sup26
+305,00305 - Hamidan,00305 - Hamidan,MARADI,Hamidan,sup15
+306,00306 - Tafarki,00306 - Tafarki,MARADI,Tafarki,sup15
+307,00307 - Makayraoua Masko,00307 - Makayraoua Masko,MARADI,Makayraoua Masko,sup15
+87,00087 - Guidan Kani,00087 - Guidan Kani,MARADI,Guidan Kani,sup25
+308,00308 - Guidan Rabo,00308 - Guidan Rabo,MARADI,Guidan Rabo,sup15
+340,340 -  Csi Bader Goula,340 -  Csi Bader Goula,MARADI,Csi Bader Goula,sup15
+90,00090 - Makerawa Abou,00090 - Makerawa Abou,MARADI,Makerawa Abou,sup19
+91,00091 - Riskiskama Mandou,00091 - Riskiskama Mandou,MARADI,Riskiskama Mandou,sup19
+92,00092 - Guidane Gari Saboua,00092 - Guidane Gari Saboua,MARADI,Guidane Gari Saboua,sup19
+93,00093 - Dan Madi,00093 - Dan Madi,MARADI,Dan Madi,sup19
+94,00094 - Amagano,00094 - Amagano,MARADI,Amagano,sup19
+95,00095 - Dan Gambou,00095 - Dan Gambou,MARADI,Dan Gambo,sup19
+96,00096 - Makyra (Forr Dan Taori ),00096 - Makyra (Forr Dan Taori ),MARADI,Makyra (Forr Dan Taori ),sup26
+97,00097 - Guidane Louche,00097 - Guidane Louche,MARADI,Guidane Louche,sup20
+98,00098 - Kaka Haoussa,00098 - Kaka Haoussa,MARADI,Kaka Haoussa,sup21
+341,341 - CSI Jigawa Boka,341 - CSI Jigawa Boka,MARADI,CSI Jigawa Boka,sup15
+100,00100 - Guidan Sallao,00100 - Guidan Sallao,MARADI,Guidan Sallao,sup30
+101,00101 - Gododji,00101 - Gododji,MARADI,Gododji,sup30
+342,342 - Csi Tagris,342 - Csi Tagris,MARADI,Csi Tagris,sup15
+343,343 - Csi Soli,343 - Csi Soli,MARADI,Csi Soli,sup15
+105,00105 - Tadeta Moussa,00105 - Tadeta Moussa,MARADI,Tadeta Moussa,sup17
+106,00106 - Fara,00106 - Fara,MARADI,Fara,sup14
+88,00088 - Daju Alhg Sabra,00088 - Daju Alhg Sabra,MARADI,Daju Alhg Sabra,sup22
+108,00108 - Koligoti,00108 - Koligoti,MARADI,Koligoti,sup26
+109,00109 - Roumawa,00109 - Roumawa,MARADI,Roumawa,sup14
+110,00110 - Dadani,00110 - Dadani,MARADI,Dadani,sup29
+111,00111 - Garjagaou,00111 - Garjagaou,MARADI,Garjagaou,sup29
+99,00099 - Ingawa,00099 - Ingawa,MARADI,Ingawa,sup22
+113,00113 - Aasharawa,00113 - Aasharawa,MARADI,Aasharawa,sup25
+114,00114 - Guidan Goula,00114 - Guidan Goula,MARADI,Guidan Goula,sup25
+115,00115 - Aza,00115 - Aza,MARADI,Aza,sup25
+116,00116 - Kouletche Safoa,00116 - Kouletche Safoa,MARADI,Kouletche Safoa,sup25
+117,00117 - Dan Baki,00117 - Dan Baki,MARADI,Dan Baki,sup25
+103,00103 - Baraya,00103 - Baraya,MARADI,Baraya,sup22
+104,00104 - Baraya Dan Tanko,00104 - Baraya Dan Tanko,MARADI,Baraya Dan Tanko,sup22
+107,00107 - Sansanawa,00107 - Sansanawa,MARADI,Sansanawa,sup22
+112,00112 - Kakou Tisalaou,00112 - Kakou Tisalaou,MARADI,Kakou Tisalaou,sup22
+131,00131 - Dan Gadou,00131 - Dan Gadou,MARADI,Dan Gadou,sup22
+132,00132 - Jumina,00132 - Jumina,MARADI,Jumina,sup22
+133,00133 - Guidan Jigo,00133 - Guidan Jigo,MARADI,Guidan Jigo,sup22
+126,00126 - Atalbawa,00126 -Atalbawa,MARADI,Atalbawa,sup19
+127,00127 - Tsamia Bakoy,00127 - Tsamia Bakoy,MARADI,Tsamia Bakoy,sup25
+134,00134 - Guidan Taye,00134 - Guidan Taye,MARADI,Guidan Taye,sup22
+135,00135 - Guidan Booka,00135 - Guidan Booka,MARADI,Guidan Booka,sup22
+136,00136 - Gasawa,00136 - Gasawa,MARADI,Gasawa,sup22
+138,00138 - Akomba,00138 - Akomba,MARADI,Akomba,sup22
+140,00140 - Guidan Wadel,00140 - Guidan Wadel,MARADI,Guidan Wadel,sup22
+154,00154- Dan Ahi,00154 - Dan Ahi,MARADI,Dan Ahi,sup22
+202,00202 - Toudou,00202 - Toudou,MARADI,Toudou,sup22
+220,00220 - Kagoum,00220 - Kagoum,MARADI,Kagoum,sup22
+223,00223 - Yamboye,00223 - Yamboye,MARADI,Yamboye,sup22
+137,00137 - Boulama Mussa,00137 - Boulama Mussa,MARADI,Boulama Mussa,sup20
+238,00238 - Mazaouda,238 - Mazaouda,MARADI,Mazaouda,sup22
+252,00252 - Gangara,00252 - Gangara,MARADI,Gangara,sup22
+253,00253 - Malamey,00253 - Malamey,MARADI,Malamey,sup22
+141,00141 - kawanya,00141 - Kawanya,MARADI,Kawanya,sup31
+254,00254 - Saje Biri,00254 - Saje Biri,MARADI,Saje Biri,sup22
+143,00143 - Guidan Nahantchi,00143 - Guidan Nahantchi,MARADI,Guidan Nahantchi,sup26
+144,00144 - Dan adawa,00144 - Dan adawa,MARADI,Dan adawa,sup18
+255,00255 - Alassane Kouama,00255 - Alassane Kouama,MARADI,Alassane Kouama,sup22
+146,00146 - Ajia Saboua,00146 - Ajia Saboua,MARADI,Ajia Saboua,sup19
+147,00147 - Nagouida,00147 - Nagouida,MARADI,Nagouida,sup17
+148,00148 - Sae Rankama,00148 - Sae Rankama,MARADI,Sae Rankama,sup17
+149,00149 - Dan Tabki,00149 - Dan Tabki,MARADI,Dan Tabki,sup17
+256,00256 - Amani Goussoum,00256 - Amani Goussoum,MARADI,Amani Goussoum,sup22
+151,00151 - Zakin Guichiri,00151 - Zakin Guichiri,MARADI,Zakin Guichiri,sup17
+152,00152 - Dodo Maradi,00152 - Dodo Maradi,MARADI,Dodo Maradi,sup14
+153,00153 - Samia Bakoye,00153 - Samia Bakoye,MARADI,Samia Bakoye,sup14
+257,00257 - Guidan Abdou,00257 - Guidan Abdou,MARADI,Guidan Abdou,sup22
+155,00155 - Lebo Sofoua,00155 - Lebo Sofoua,MARADI,Lebo Sofoua,sup14
+156,00156 - Jean Roua,00156 - Jean Roua,MARADI,Jean Roua,sup29
+157,00157 - Giudan Chadou,00157 - Giudan Chadou,MARADI,Giudan Chadou,sup29
+158,00158 - Dan Maigeri,00158 - Dan Maigeri,MARADI,Dan Maigeri,sup14
+159,00159 - Dan Rago,00159 - Dan Rago,MARADI,Dan Rago,sup14
+160,00160 - Limbidoua (Jimbidaoua),00160 - Limbidoua (Jimbidaoua),MARADI,Limbidoua (Jimbidaoua),sup14
+161,00161 - May Gaoude,00161 - May Gaoude,MARADI,May Gaoude,sup14
+162,00162 - Makaoure,00162 - Makaoure,MARADI,Makaoure,sup14
+163,00163 - Base 1 Maradi,00163 - Base 1 Maradi,MARADI,Base 1 Maradi,pro_m
+164,00164 - Guidan Zougaou,00164 - Guidan Zougaou,MARADI,Guidan Zougaou,sup14
+165,00165 - Guidan Kanda + Ignadou,00165 - Guidan Kanda + Ignadou,MARADI,Guidan Kanda + Ignadou,sup14
+166,00166 - Robibya,00166 - Robibya,MARADI,Robibya,sup14
+167,00167 - Koubdo Soboua,00167 - Koubdo Soboua,MARADI,Koubdo Soboua,sup31
+168,00168 - Maiguizawa Kangnou,00168 - Maiguizawa Kangnou,MARADI,Maiguizawa Kangnou,sup30
+169,00169 - Kori',00169 - Kori',MARADI,Kori',sup31
+170,00170 - Taoude,00170 - Taoude,MARADI,Taoude,sup18
+172,00172 - Charkette,00172 - Charkette,MARADI,Charkette,sup18
+173,00173 - Mariga Soufoua,00173 - Mariga Soufoua,MARADI,Mariga Soufoua,sup18
+174,00174 - Botche,00174 - Botche,MARADI,Botche,sup18
+175,00175 - Malamawa,00175 - Malamawa,MARADI,Malamawa,sup31
+176,00176 - Garin Maroussa,00176 - Garin Maroussa,MARADI,Garin Maroussa,sup30
+177,00177 - Dan Bago,00177 - Dan Bago,MARADI,Dan Bago,sup30
+178,00178 - Touchin Guina,00178 - Touchin Guina,MARADI,Touchin Guina,sup19
+179,00179 - Gourbabo,00179 - Gourbabo,MARADI,Gourbabo,sup19
+258,00258 - Guidan Antou,00258 - Guidan Antou,MARADI,Guidan Antou,sup22
+263,00263 - Dalgogama,00263 - Dalgogama,MARADI,Dalgogama,sup22
+265,00265 - Bouzouzoum,00265 - Bouzouzoum,MARADI,Bouzouzoum,sup22
+268,00268 - Fadama,00268 - Fadama,MARADI,Fadama,sup22
+271,00271 - Guidane Kiabe,00271 - Guidane Kiabe,MARADI,Guidane Kiabe,sup22
+273,00273 - Guidane Basso,00273 - Guidane Basso,MARADI,Guidane Basso,sup22
+275,00275 - Jimke School,00275 - Jimke School,MARADI,Jimke School,sup22
+283,00283 - Tabani,00283 - Tabani,MARADI,Tabani,sup22
+188,00188 - Guidane Jalo,00188 - Guidane Jalo,MARADI,Guidane Jalo,sup23
+189,00189 - Angoual Lima,00189 - Angoual Lima,MARADI,Angoual Lima,sup31
+190,00190 - Dadin Serki,00190 - Dadin Serki,MARADI,Dadin Serki,sup31
+191,00191 - Dan Moussa,00191 - Dan Moussa,MARADI,Dan Moussa,sup31
+192,00192 - Guidane Bagaouri,00192 - Guidane Bagaouri,MARADI,Guidane Bagaouri,sup30
+193,00193 - In Walla Na Jiga,00193 - In Walla Na Jiga,MARADI,In Walla Na Jiga,sup31
+38,00038 - Dan Kibia Goussoum,00038 - Dan Kibia Goussoum,MARADI,Dan Kibia Goussoum,sup27
+195,00195 - Roumbou Tchike,00195 - Roumbou Tchike,MARADI,Roumbou Tchike,sup30
+196,00196 - Takasaba,00196 - Takasaba,MARADI,Takasaba,sup30
+197,00197 - Guidan Alley,00197 - Guidan Alley,MARADI,Guidan Alley,sup31
+198,00198 - Basare,00198 - Basare,MARADI,Basare,sup31
+199,00199 - Koukou Yousoufou,00199 - Koukou Yousoufou,MARADI,Koukou Yousoufou,sup31
+200,00200 - Dan Gouiwa (May Soura),00200 - Dan Gouiwa (May Soura),MARADI,Dan Gouiwa (May Soura),sup31
+201,00201 - Guidane Kibia,00201 - Guidane Kibia,MARADI,Guidane Kibia,sup31
+52,00052 - Bakachanta,00052 - Bakachanta,MARADI,Bakachanta,sup27
+203,00203 - Guidane Bouzou,00203 - Guidane Bouzou,MARADI,Guidane Bouzou,sup16
+204,00204 - Kdadkaye,00204 - Kdadkaye,MARADI,Kdadkaye,sup30
+205,00205 - Hankaka,00205 - Hankaka,MARADI,Hankaka,sup30
+55,00055 - Guidan Arzika,00055 - Guidan Arzika,MARADI,Guidan Arzika,sup27
+56,00056 - Tchololoua,00056 - Tchololoua,MARADI,Tchololoua,sup27
+145,00145 - Dan Dada,00145 - Dan Dada,MARADI,Dan Dada,sup27
+150,00150 - Akyata,00150 - Akyata,MARADI,Akyata,sup27
+180,00180 - Fagamniya,00180 - Fagamniya,MARADI,Fagamniya,sup27
+211,00211 - Dallawa,00211 - Dallawa,MARADI,Dallawa,sup20
+212,00212 - Dan Halbawa,00212 - Dan Halbawa,MARADI,Dan Halbawa,sup21
+213,00213 - Mai Kassoua,00213 - Mai Kassoua,MARADI,Mai Kassoua,sup21
+214,00214 - Rouan Danya,00214 - Rouan Danya,MARADI,Rouan Danya,sup21
+215,00215 - Tagaza,00215 - Tagaza,MARADI,Tagaza,sup21
+216,00216 - Guidan Jiji,00216 - Guidan Jiji,MARADI,Guidan Jiji,sup21
+217,00217 - Dan Toudou,00217 - Dan Toudou,MARADI,Dan Toudou,sup21
+218,00218 - Guidan Maida,00218 - Guidan Maida,MARADI,Guidan Maida,sup20
+181,00181 - Araouraye,00181 - Araouraye,MARADI,Araouraye,sup27
+182,00182 - Bamida,00182 - Bamida,MARADI,Bamida,sup27
+221,00221 - Base 4 Dokoro Adjerkorya,00221 - Base 4 Dokoro Adjerkorya,MARADI,Base 4 Dokoro Adjerkorya,sup26
+222,00222 - Nwalla Dan Marke,00222 - Nwalla Dan Marke,MARADI,Nwalla Dan Marke,sup26
+184,00184 - Dan Banga,00184 - Dan Banga,MARADI,Dan Banga,sup27
+226,00226 - Abegou,00226 - Abegou,MARADI,Abegou,sup25
+228,00228 - Yachin Gila,00228 - Yachin Gila,MARADI,Yachin Gila,sup25
+229,00229 - Maysintchia,00229 - Maysintchia,MARADI,Maysintchia,sup25
+230,00230 - Guidan Barouma,00230 - Guidan Barouma,MARADI,Guidan Barouma,sup25
+231,00231 - Gourgoumgao,00231 - Gourgoumgao,MARADI,Gourgoumgao,sup25
+232,00232 - G.Serkin Makira,00232 - G.Serkin Makira,MARADI,G.Serkin Makira,sup25
+233,00233 - Guidan Kawra,00233 - Guidan Kawra,MARADI,Guidan Kawra,sup25
+234,00234 - Guidan Boukari,00234 - Guidan Boukari,MARADI,Guidan Boukari,sup25
+235,00235 - Goudougwa,00235 - Goudougwa,MARADI,Goudougwa,sup25
+236,00236 - Guidan Gali,00236 - Guidan Gali,MARADI,Guidan Gali,sup25
+237,00237 - Guidan Goji,00237 - Guidan Goji,MARADI,Guidan Goji,sup25
+239,00239 - Dembebe,00239 - Dembebe,MARADI,Dembebe,sup17
+240,00240 - Obandawaki Nasale,00240 - Obandawaki Nasale,MARADI,Obandawaki Nasale,sup26
+241,00241 - Gajiri Saboua,00241 - Gajiri Saboua,MARADI,Gajiri Saboua,sup19
+242,00242 - Guidan Toulotou,00242 - Guidan Toulotou,MARADI,Guidan Toulotou,sup26
+243,00243 - Guidan Abdou Maybarewa,00243 -Guidan Abdou Maybarewa,MARADI,Guidan Abdou Maybarewa,sup19
+244,00244 - Laoudi Saoudi,00244 - Laoudi Saoudi,MARADI,Laoudi Saoudi,sup17
+245,00245 - Inyalwa,00245 - Inyalwa,MARADI,Inyalwa,sup25
+246,00246 - Bazala,00246 - Bazala,MARADI,Bazala,sup17
+247,00247 - Katari Dan Makaou,00247 - Katari Dan Makaou,MARADI,Katari Dan Makaou,sup17
+248,00248 - Garin Bara Gaoudare,00248 - Garin Bara Gaoudare,MARADI,Garin Bara Gaoudare,sup17
+249,00249 - Tarin Biri,00249 - Tarin Biri,MARADI,Tarin Biri,sup16
+250,00250 - Tamindaou Zanfaraoua,00250 - Tamindaou Zanfaraoua,MARADI,Tamindaou Zanfaraoua,sup33
+251,00251 - Bargou kalla,00251 - Bargou kalla,MARADI,Bargou kalla,sup18
+59,00059 - Inguididey,00059 - Inguididey,MARADI,Inguididey,sup28
+60,00060 - Sansanawa Wada,00060 - Sansanawa Wada,MARADI,Sansanawa Wada,sup28
+61,00061 - Guidan Atche,00061 - Guidan Atche,MARADI,Guidan Atche,sup28
+85,00085 - Koumtchi,00085 - Koumtchi,MARADI,Koumtchi,sup28
+259,00259 - Amani Arewa,00259 - Amani Arewa,MARADI,Amani Arewa,sup23
+260,00260 - Farou Bakoye,00260 - Farou Bakoye,MARADI,Farou Bakoye,sup23
+261,00261 - Tagaye,00261 - Tagaye,MARADI,Tagaye,sup23
+262,00262 - Guidane Hankourou,00262 - Guidane Hankourou,MARADI,Guidane Hankourou,sup23
+264,00264 - Kankaren Gakoy,00264 - Kankaren Gakoy,MARADI,Kankaren Gakoy,sup21
+89,00089 - Inwalla Rigia Jibo,00089 - Inwalla Rigia Jibo,MARADI,Inwalla Rigia Jibo,sup28
+266,00266 - Katare,00266 - Katare,MARADI,Katare,sup23
+267,00267 - Warzo,00267 - Warzo,MARADI,Warzo,sup21
+128,00128 - Dogon Dawa,00128 - Dogon Dawa,MARADI,Dogon Dawa,sup28
+269,00269 - Guidan Bouja,00269 - Guidan Bouja,MARADI,Guidan Bouja,sup23
+270,00270 - Guidane Atchi,00270 - Guidane Atchi,MARADI,Guidane Atchi,sup23
+129,00129 - Guidan Guingama,00129 - Guidan Guingama,MARADI,Guidan Guingama,sup28
+272,00272 - Dadin Tamro,00272 - Dadin Tamro,MARADI,Dadin Tamro,sup23
+130,00130 - Guidan Atcha,00130 - Guidan Atcha,MARADI,Guidan Atcha,sup28
+274,00274 - Malloumey,00274 - Malloumey,MARADI,Malloumey,sup23
+139,00139 - Marakye,00139 - Marakye,MARADI,Marakye,sup28
+276,00276 - Dan Farou,00276 - Dan Farou,MARADI,Dan Farou,sup23
+277,00277 - Guidane boune,00277 - Guidane boune,MARADI,Guidane boune,sup23
+278,00278 - Guidan Ganaou,00278 - Guidan Ganaou,MARADI,Guidan Ganaou,sup23
+142,00142 - Kelewei,00142 - Kelewei,MARADI,Kelewei,sup28
+280,00280 - Dan Dawo,00280 - Dan Dawo,MARADI,Dan Dawo,sup23
+281,00281 - Guidane Atto,00281 - Guidane Atto,MARADI,Guidane Atto,sup23
+282,00282 - Guidan Bouzou,00282 - Guidan Bouzou,MARADI,Guidan Bouzou,sup30
+206,00206 - Maysirda,00206 - Maysirda,MARADI,Maysirda,sup28
+284,00284 - Halbawa  Goula,00284 - Halbawa  Goula,MARADI,Halbawa  Goula,sup21
+285,00285 - Malali,00285 - Malali,MARADI,Malali,sup21
+286,00286 - Kankaren Dogo,00286 - Kankaren Dogo,MARADI,Kankaren Dogo,sup21
+287,00287 - Guidane Yarima,00287 - Guidane Yarima,MARADI,Guidane Yarima,sup20
+288,00288 - Haouken Sara,00288 - Haouken Sara,MARADI,Haouken Sara,sup20
+289,00289 - Yankouarou,00289 - Yankouarou,MARADI,Yankouarou ,sup23
+290,00290 - Tabazo,00290 - Tabazo,MARADI,Tabazo,sup20
+291,00291 - Dan Rani,00291 - Dan Rani,MARADI,Dan Rani,sup20
+292,00292 - kotia,00292 - kotia,MARADI,kotia,sup20
+293,00293 - Kawfasamo,00293 - Kawfasamo,MARADI,Kawfasamo,sup20
+294,00294 - Radi,00294 - Radi,MARADI,Radi,sup20
+295,00295 - Dan Gadawa,00295 - Dan Gadawa,MARADI,Dan Gadawa,sup20
+296,00296 - Guidane malam bakoye,00296 - Guidane malam bakoye,MARADI,Guidane malam bakoye,sup20
+297,00297 - Tchoutchana,00297 - Tchoutchana,MARADI,Tchoutchana,sup26
+298,00298 - Guidane Zoudi,00298 - Guidane Zoudi,MARADI,Guidane Zoudi,sup21
+299,00299 - Maylafia,00299 - Maylafia,MARADI,Maylafia,sup16
+300,00300 - Kouka Dan Houwa,00300 - Kouka Dan Houwa,MARADI,Kouka Dan Houwa,sup16
+301,00301 - Guidane lale bakane,00301 - Guidan Lali,MARADI,Guidane lale bakane,sup21
+302,00302 - Edo Gadania,00302 - Edo Gadania,MARADI,Edo Gadania,sup16
+303,00303 - Tarfet,00303 - Tarfet,MARADI,Tarfet,sup16
+304,00304 - Mayrakomma,00304 - Mayrakomma,MARADI,Mayrakomma,sup16
+207,00207 - Guidan Manzo,00207 - Guidan Manzo,MARADI,Guidan Manzo,sup28
+208,00208 - Karam Karam,00208 - Karam Karam,MARADI,Karam Karam,sup28
+209,00209 - Waga Waga,00209 - Waga Waga,MARADI,Waga Waga,sup28
+210,00210 - Sabare,00210 - Sabare,MARADI,Sabare,sup28
+309,00309 - Dogon Jima,00309 - Dogon Jima,MARADI,Dogon Jima,sup33
+310,00310 - Guidane Barmo,00310 - Guidane Barmo,MARADI,Guidane Barmo,sup19
+311,311 - Jembali,311 - Jembali,MARADI,Jembali,sup17
+312,312 - Soumba,312 - Soumba,MARADI,Soumba,sup17
+313,313 - Dan Faraou ,313 - Dan Faraou ,MARADI,Dan Faraou ,sup17
+314,314 - Goda Maynasara,314 - Goda Maynasara,MARADI,Goda Maynasara,sup17
+315,315 -Dakorou Sofwa,315 -Dakorou Sofwa,MARADI,Dakorou Sofwa,sup17
+316,316 -  Dan Falke ,316 -  Dan Falke ,MARADI, Dan Falke ,sup17
+317,317 - Totsa Al hassan,317 - Totsa Al hassan,MARADI,Totsa Al hassan,sup19
+318,318 - Zango Allah,318 - Zango Allah,MARADI,Zango Allah,sup19
+319,319 - Mountouguie Ali,319 - Mountouguie Ali,MARADI,Mountouguie Ali,sup33
+320,320 - Guidan Atchi,320 - Guidan Atchi,MARADI,Guidan Atchi,sup24
+321,321 - Maimaiwa Dan Tankari,321 - Maimaiwa Dan Tankari,MARADI,Maimaiwa Dan Tankari,sup16
+322,322 - Attaou,322 - Attaou,MARADI,Attaou,sup24
+323,323 - Dan Kago,323 - Dan Kago,MARADI,Dan Kago,sup24
+324,324 - Tankarawa,324 - Tankarawa,MARADI,Tankarawa ,sup24
+325,325 - Csi Sabon Machi,325 - Csi Sabon Machi,MARADI,Csi Sabon Machi,sup33
+326,326 - Kortamido,326 - Kortamido,MARADI, Kortamido ,sup24
+327,327 - Faltchi,327 - Faltchi,MARADI, Faltchi,sup24
+328,328 - Adarawa,328 - Adarawa,MARADI,Adarawa,sup16
+329,329 - Koumaréwa,329 - Koumaréwa,MARADI,Koumaréwa,sup16
+330,330 - Dan Chema,330 - Dan Chema,MARADI,Dan Chema,sup16
+331,331 - Moudougou Chema,331 - Moudougou Chema,MARADI,Moudougou Chema,sup16
+332,332 - Sakawa Sofoua ,332 - Sakawa Sofoua ,MARADI,Sakawa Sofoua ,sup19
+333,333 - Guidane Nouho bako,333 - Guidane Nouho bako,MARADI,Guidane Nouho bako,sup33
+334,334 - Guidane Bara kadoudou,334 - Guidane Bara kadoudou,MARADI,Guidane Bara kadoudou,sup19
+335,335 - Tourda,335 - Tourda,MARADI,Tourda,sup16
+336,336 - CSI Bousarage,336 - CSI Bousarage,MARADI,CSI Bousarage,sup18
+337,337 - csi Kaya Adamou,337 - csi Kaya Adamou,MARADI,csi Kaya Adamou,sup16
+338,338 - Csi Dakoro,338 - Csi Dakoro,MARADI,Csi Dakoro,sup24
+339,339 - Csi Adjekoria,339 - Csi Adjekoria,MARADI,Csi Adjekoria,sup24
+219,00219 - Oubandawaki ,00219 - Oubandawaki ,MARADI,Oubandawaki ,sup28
+225,00225 - Dan Fouri,00225 - Dan Fouri,MARADI,Dan Fouri,sup28
+227,00227 - Guidan Agali,00227 - Guidan Agali,MARADI,Guidan Agali,sup28
+344,344 - Csi Majema,344 - Csi Majema,MARADI,Csi Majema,sup33
+345,345 -  Csi korahan,345 -  Csi korahan,MARADI,Csi korahan,sup16
+346,346 -  Csi Alforma,346 -  Csi Alforma,MARADI,Csi Alforma,sup33
+347,347 - Csi Dan Dja,347 - Csi Dan Dja,MARADI,Csi Dan Dja,sup33
+348,348 - Csi Sakawa,348 - Csi Sakawa,MARADI,Csi Sakawa,sup33
+349,349 - Csi Guidane Tanko,349 - Csi Guidane Tanko,MARADI,Csi Guidane Tanko,sup19
+350,350 - Csi Guidan Adjia,350 - Csi Guidan Adjia,MARADI,Csi Guidan Adjia,sup33
+351,351 - Csi Dan Dada,351 - Csi Dan Dada,MARADI,Csi Dan Dada,sup17
+352,352 - Csi Serkin Hatchi,352 - Csi Serkin Hatchi,MARADI,Csi Serkin Hatchi,sup18
+353,353 - Csi karoussa,353 - Csi karoussa,MARADI,Csi karoussa,sup30
+354,354 - Csi Eloum,354 - Csi Eloum,MARADI,Csi Eloum,sup30
+355,355 - Csi Dargue,355 - Csi Dargue,MARADI,Csi Dargue,sup18
+356,356 - CSI Chadakori,356 - CSI Chadakori,MARADI,CSI Chadakori,sup18
+357,357 - Csi Goumar,357 - Csi Goumar,MARADI,Csi Goumar,sup18
+358,358 - Abbaza,358 - Abbaza,MARADI,Abbaza,sup24
+359,359 - Anzouna,359 - Anzouna,MARADI,Anzouna,sup24
+360,360 - Gaseki,360 - Gaseki,MARADI,Gaseki,sup24
