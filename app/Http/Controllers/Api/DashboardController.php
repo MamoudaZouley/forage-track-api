@@ -63,7 +63,16 @@ class DashboardController extends Controller
             ],
             'alerts' => [
                 'total' => $totalAlerts,
-                'critical' => $criticalAlerts,
+               'critical_alerts' => Alert::with('well')
+                ->whereIn('component', $criticalComponents)
+                ->where('resolved', false)
+                ->orderBy('created_at', 'asc') // Les plus anciennes en premier
+                ->limit(5)
+                ->get()
+                ->map(function($alert) {
+                    $alert->days_open = now()->diffInDays($alert->created_at);
+                    return $alert;
+                }),
                 'medium' => $mediumAlerts,
                 'low' => $lowAlerts,
             ],

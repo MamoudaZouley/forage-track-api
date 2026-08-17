@@ -122,8 +122,18 @@ class AlertController extends Controller
             'last_visit_date' => $supervision->visit_date,
             'overall_status' => $supervision->overall_status,
             'alerts_count' => $alerts->count(),
-            'alerts' => $alerts,
-            'status' => $status,
+            'alerts' => $alerts->map(function($alert) use ($supervision) {
+                return [
+                    'id' => $alert->id,
+                    'component' => $alert->component,
+                    'issue' => $alert->issue,
+                    'severity' => $alert->severity,
+                    'resolved' => $alert->resolved,
+                    'days_open' => $alert->resolved ? 0 : (int) now()->diffInDays($supervision->visit_date, true),
+                    'created_at' => $alert->created_at,
+                ];
+             }),
+                        'status' => $status,
             'last_maintenance_date' => $lastMaintenance?->visit_date,
             'last_maintenance_result' => $lastMaintenance?->final_result,
             'supervision_id' => $supervision->id,
@@ -156,5 +166,6 @@ class AlertController extends Controller
         'stats' => $stats,
         'data' => $sorted,
     ]);
-}
+   }
+   
 }
