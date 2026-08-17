@@ -157,7 +157,127 @@ class MaintenanceController extends Controller
                 'other_details' => $otherDetails,
             ];
         })->sortByDesc('total')->values();
+        
 
         return response()->json($stats);
+    }
+       public function exportData(Request $request)
+{
+    $query = \App\Models\Maintenance::with('well');
+
+    if ($request->region) {
+        $query->where('region', $request->region);
+    }
+    if ($request->maintenance_type) {
+        $query->where('maintenance_type', $request->maintenance_type);
+    }
+    if ($request->final_result) {
+        $query->where('final_result', $request->final_result);
+    }
+
+    return response()->json(
+        $query->orderBy('visit_date', 'desc')->get()->map(function($m) {
+            return [
+                'visit_date'            => $m->visit_date,
+                'village'               => $m->village ?? $m->well?->village,
+                'region'                => $m->region ?? $m->well?->region,
+                'well_code'             => $m->well_code,
+                'technician_username'   => $m->technician_username,
+                'team_leader_name'      => $m->team_leader_name,
+                'maintenance_type'      => $m->maintenance_type,
+                'work_performed'        => $m->work_performed,
+                'work_description'      => $m->work_description,
+                'work_duration'         => $m->work_duration,
+                'pump_condition_before' => $m->pump_condition_before,
+                'pump_condition_after'  => $m->pump_condition_after,
+                'water_flow_before'     => $m->water_flow_before,
+                'water_flow_after'      => $m->water_flow_after,
+                'final_result'          => $m->final_result,
+                'needs_followup'        => $m->needs_followup,
+                'observations'          => $m->observations,
+               ];
+           })
+       );
+}
+
+    public function export(Request $request)
+    {
+        $query = \App\Models\Maintenance::with('well');
+
+        if ($request->region) {
+            $query->where('region', $request->region);
+        }
+        if ($request->maintenance_type) {
+            $query->where('maintenance_type', $request->maintenance_type);
+        }
+        if ($request->final_result) {
+            $query->where('final_result', $request->final_result);
+        }
+
+        $maintenances = $query->orderBy('visit_date', 'desc')->get();
+
+        $typeLabels = [
+            'emergency'   => 'Urgence',
+            'repair'      => 'Réparation',
+            'replacement' => 'Remplacement',
+            'scheduled'   => 'Planifié',
+            'inspection'  => 'Inspection',
+        ];
+
+        $resultLabels = [
+            'fully_working'     => 'Fonctionnel',
+            'partially_working' => 'Partiel',
+            'not_working'       => 'En panne',
+            'needs_parts'       => 'Pièces requises',
+            'needs_specialist'  => 'Spécialiste requis',
+            'not_repairable'    => 'Non réparable',
+        ];
+
+        $headers = [
+            'Content-Type'        => 'text/csv; charset=UTF-8',
+            'Content-Disposition' => 'attachment; filename="maintenances_' . now()->format('Y-m-d') . '.csv"',
+        ];
+
+        $callback = function() use ($maintenances, $typeLabels, $resultLabels) {
+            $file = fopen('php://output', 'w');
+            fprintf($file, chr(0xEF) . chr(0xBB) . chr(0xBF));
+
+            fputcsv($file, [
+                '#', 'Date', 'Village', 'Région', 'Code puits',
+                'Technicien', 'Chef équipe', 'Type', 'Travaux effectués',
+                'Description', 'Durée (h)', 'Pompe avant', 'Pompe après',
+                'Débit avant', 'Débit après', 'Résultat', 'Suivi requis',
+                'Observations',
+            ], ';');
+
+            foreach ($maintenances as $i => $m) {
+                $village = $m->village ?? $m->well?->village ?? '—';
+
+                fputcsv($file, [
+                    $i + 1,
+                    $m->visit_date,
+                    $village,
+                    $m->region ?? $m->well?->region ?? '—',
+                    $m->well_code,
+                    $m->technician_username ?? '—',
+                    $m->team_leader_name ?? '—',
+                    $typeLabels[$m->maintenance_type ?? ''] ?? ($m->maintenance_type ?? '—'),
+                    $m->work_performed ?? '—',
+                    $m->work_description ?? '—',
+                    $m->work_duration ?? '—',
+                    $m->pump_condition_before ?? '—',
+                    $m->pump_condition_after ?? '—',
+                    $m->water_flow_before ?? '—',
+                    $m->water_flow_after ?? '—',
+                    $resultLabels[$m->final_result ?? ''] ?? ($m->final_result ?? '—'),
+                    $m->needs_followup ? 'Oui' : 'Non',
+                    $m->observations ?? '—',
+                ], ';');
+            }
+
+            fclose($file);
+        };
+
+        return response()->stream($callback, 200, $headers);
     }
 }
