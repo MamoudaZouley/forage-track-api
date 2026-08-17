@@ -115,7 +115,10 @@ class SupervisionController extends Controller
 
         // Charge les puits avec correspondance village normalisé
        // Charge les puits depuis wells_merged_utf8.csv (source de vérité)
-        $csvPath = base_path('wells_kpi.csv');
+        $cutoffMonth = '2026-08';
+        $csvPath = $month < $cutoffMonth 
+        ? base_path('wells_kpi.csv') 
+        : base_path('wells_merged_utf8.csv');
         $assignmentMap = [];
         if (file_exists($csvPath)) {
             $f = fopen($csvPath, 'r');
@@ -214,6 +217,7 @@ class SupervisionController extends Controller
         // KPI par superviseur
         $stats = collect($supervisorRegistry)->map(function($info, $supUsername) use ($validatedCollection, $assignmentMap) {
             $nWells = count($assignmentMap[$supUsername] ?? []);
+            if ($nWells === 0) return null;
             $target = $nWells * 4;
 
             $supAll = $validatedCollection->filter(fn($v) => $v['sup'] === $supUsername);
@@ -257,7 +261,7 @@ class SupervisionController extends Controller
                 'kpi_percent' => $kpi,
                 'grade' => $grade,
             ];
-        })->sortBy('kpi_percent')->values();
+        })->filter()->sortBy('kpi_percent')->values();
 
         $totals = [
             'assigned_wells' => $stats->sum('assigned_wells'),
