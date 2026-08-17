@@ -83,7 +83,7 @@ name,village_name,region,department,commune,supervisor
 239,Dembebe,MARADI,dakoro,dan_goulbi,sup17
 152,Dodo Maradi,MARADI,gazaoua,gazaoua,sup14
 128,Dogon Dawa,MARADI,tessaoua,ourafane_south,sup28
-309,Dogon Jima,MARADI,dakoro,kornaka,sup19
+309,Dogon Jima,MARADI,dakoro,kornaka,sup33
 41,Dogon Makotchi,MARADI,dakoro,bader_goula,sup15
 18,Douma 2,MARADI,gazaoua,gazaoua,sup29
 8,Dourgou,MARADI,gazaoua,gazaoua,sup14
@@ -234,7 +234,7 @@ name,village_name,region,department,commune,supervisor
 162,Makaoure,MARADI,gazaoua,gazaoua,sup14
 307,Makayraoua Masko,MARADI,dakoro,bader_goula,sup15
 96,Makyra (Forr Dan Taori ),MARADI,dakoro,kornaka,sup26
-90,MakÃƒÂƒÃ‚Â©rawa Abou,MARADI,dakoro,kornaka,sup19
+90,Makerawa Abou,MARADI,dakoro,kornaka,sup19
 285,Malali,MARADI,mayahi,mayahi_middle,sup21
 175,Malamawa,MARADI,tessaoua,tessaoua,sup31
 253,Malamey,MARADI,mayahi,mayahi_north,sup22
@@ -282,7 +282,7 @@ name,village_name,region,department,commune,supervisor
 215,Tagaza,MARADI,mayahi,mayahi,sup21
 10,Takalmawa,MARADI,aguie,tchadoua,sup29
 196,Takasaba,MARADI,aguie,tchadoua,sup30
-250,Tamindaou Zanfaraoua,MARADI,dakoro,dan_goulbi,sup19
+250,Tamindaou Zanfaraoua,MARADI,dakoro,dan_goulbi,sup33
 170,Taoude,MARADI,guidan_roumji,guidan_roumji,sup18
 303,Tarfet,MARADI,bermo,bermo,sup16
 249,Tarin Biri,MARADI,bermo,bermo,sup16
@@ -303,24 +303,24 @@ name,village_name,region,department,commune,supervisor
 151,Zakin Guichiri,MARADI,dakoro,dan_goulbi,sup17
 325,Totsa Al hassan,MARADI,dakoro,kornaka ,sup19
 326,Zango Allah,MARADI,dakoro,kornaka ,sup19
-327,Mountouguie Ali,MARADI,dakoro,dakoro,sup33
+340,Sakawa Sofoua ,MARADI,dakoro,kornaka ,sup19
 328,Guidan Atchi,MARADI,dakoro,dakoro,sup24
 329,Maimaiwa Dan Tankari,MARADI,dakoro,dakoro,sup16
 330,Attaou,MARADI,dakoro,dakoro,sup24
 331,Dan Kago,MARADI,dakoro,dakoro,sup24
 332,Tankarawa ,MARADI,dakoro,dakoro,sup24
-333,Csi Sabon Machi,MARADI,sabon_machi,sabon_machi,sup33
+342,Guidane Bara kadoudou,MARADI,dakoro,kornaka,sup19
 334, Kortamido ,MARADI,dakoro,dakoro,sup24
 335, Faltchi,MARADI,dakoro,dakoro,sup24
 336,Adarawa,MARADI,dakoro,dakoro,sup16
 337,Koumaréwa,MARADI,dakoro,dakoro,sup16
 338,Dan Chema,MARADI,dakoro,dakoro,sup16
 339,Moudougou Chema,MARADI,dakoro,dakoro,sup16
-340,Sakawa Sofoua ,MARADI,dakoro,kornaka ,sup19
-341,Guidane Nouho bako,MARADI,dakoro,kornaka ,sup33
-342,Guidane Bara kadoudou,MARADI,dakoro,kornaka,sup19
+357,Csi Guidane Tanko,MARADI,dakoro,kornaka ,sup19
+327,Mountouguie Ali,MARADI,dakoro,dakoro,sup33
+333,Csi Sabon Machi,MARADI,sabon_machi,sabon_machi,sup33
 343,Tourda,MARADI,dakoro,dakoro,sup16
-344,CSI Bousarage,MARADI,chadakori,chadakori,sup17
+344,CSI Bousarage,MARADI,chadakori,chadakori,sup18
 345,csi Kaya Adamou,MARADI,dakoro,dakoro,sup16
 346,Csi Dakoro,MARADI,dakoro,dakoro,sup24
 347,Csi Adjekoria,MARADI,dakoro,dakoro,sup24
@@ -328,19 +328,19 @@ name,village_name,region,department,commune,supervisor
 349,CSI Jigawa Boka,MARADI,dakoro,jigawa_boka,sup15
 350,Csi Tagris,MARADI,dakoro,tagris,sup15
 351,Csi Soli,MARADI,dakoro,soli,sup15
-352,Csi Majema,MARADI,dakoro,dakoro,sup33
+341,Guidane Nouho bako,MARADI,dakoro,kornaka ,sup33
 353,Csi korahan,MARADI,dakoro,dakoro,sup16
+352,Csi Majema,MARADI,dakoro,dakoro,sup33
 354,Csi Alforma,MARADI,dakoro,kornaka ,sup33
 355,Csi Dan Dja,MARADI,dakoro,kornaka ,sup33
 356,Csi Sakawa,MARADI,dakoro,kornaka ,sup33
-357,Csi Guidane Tanko,MARADI,dakoro,kornaka ,sup19
 358,Csi Guidan Adjia,MARADI,dakoro,kornaka ,sup33
 359,Csi Dan Dada,MARADI,dakoro,dan_goulbi,sup17
-360,Csi Serkin Hatchi,MARADI,chadakori,chadakori,sup17
-361,Csi karoussa,MARADI,chadakori,chadakori,sup17
-362,Csi Eloum,MARADI,chadakori,chadakori,sup17
-363,Csi Dargue,MARADI,chadakori,chadakori,sup17
-364,CSI Chadakori,MARADI,chadakori,chadakori,sup17
+360,Csi Serkin Hatchi,MARADI,chadakori,chadakori,sup18
+361,Csi karoussa,MARADI,chadakori,chadakori,sup30
+362,Csi Eloum,MARADI,chadakori,chadakori,sup30
+363,Csi Dargue,MARADI,chadakori,chadakori,sup18
+364,CSI Chadakori,MARADI,chadakori,chadakori,sup18
 365,Csi Goumar,MARADI,dakoro,dakoro,sup18
 366,Abbaza,MARADI,dakoro,dakoro,sup24
 367,Anzouna,MARADI,dakoro,dakoro,sup24

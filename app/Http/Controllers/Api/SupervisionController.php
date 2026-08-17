@@ -93,11 +93,15 @@ class SupervisionController extends Controller
 
         // Fonction de normalisation des villages
         $normalize = function($str) {
-            $str = mb_strtolower(trim($str ?? ''));
-            $search = ['é','è','ê','ë','à','â','ä','î','ï','ô','ö','ù','û','ü','ç','ñ','É','È','Ê','À','Â','Î','Ô','Ù','Û','Ç'];
-            $replace = ['e','e','e','e','a','a','a','i','i','o','o','u','u','u','c','n','e','e','e','a','a','i','o','u','u','c'];
-            return str_replace($search, $replace, $str);
-        };
+        $str = mb_strtolower(trim($str ?? ''));
+        // Remplace les accents connus
+        $search = ['é','è','ê','ë','à','â','ä','î','ï','ô','ö','ù','û','ü','ç','ñ','É','È','Ê','À','Â','Î','Ô','Ù','Û','Ç'];
+        $replace = ['e','e','e','e','a','a','a','i','i','o','o','u','u','u','c','n','e','e','e','a','a','i','o','u','u','c'];
+        $str = str_replace($search, $replace, $str);
+        // Supprime tous les caractères non-ASCII restants
+        $str = preg_replace('/[^\x00-\x7F]/', '', $str);
+        return trim($str);
+    };
 
         // Toutes les soumissions du mois depuis l'historique complet
         $supervisions = \Illuminate\Support\Facades\DB::table('supervision_history')
@@ -110,19 +114,26 @@ class SupervisionController extends Controller
             ->map(fn($s) => (array) $s);
 
         // Charge les puits avec correspondance village normalisé
+       // Charge les puits depuis wells_merged_utf8.csv (source de vérité)
+        $csvPath = base_path('wells_merged_utf8.csv');
         $assignmentMap = [];
-        $wells = Well::whereNotNull('supervisor')
-                    ->where('supervisor', '!=', 'pro_m')
-                    ->whereNotIn('code', ['86', '102'])
-                    ->get(['supervisor', 'code', 'village']);
-
-        foreach ($wells as $w) {
-            $assignmentMap[$w->supervisor][] = [
-                'code' => $w->code,
-                'village_norm' => $normalize($w->village),
-            ];
+        if (file_exists($csvPath)) {
+            $f = fopen($csvPath, 'r');
+            $header = array_map('trim', fgetcsv($f, 0, ',', '"', ''));
+            $idx = array_flip($header);
+            while (($row = fgetcsv($f, 0, ',', '"', '')) !== false) {
+                $row = array_map('trim', $row);
+                $code = $row[$idx['name']] ?? null;
+                $village = $row[$idx['village_name']] ?? null;
+                $supervisor = $row[$idx['supervisor']] ?? null;
+                if (!$code || !$supervisor || $supervisor === 'pro_m' || in_array($code, ['86', '102', '163'])) continue;
+                $assignmentMap[$supervisor][] = [
+                    'code' => $code,
+                    'village_norm' => $normalize($village),
+                ];
+            }
+            fclose($f);
         }
-
         // Registre des superviseurs
         $supervisorRegistry = [
             'sup14' => ['name' => 'Inoussa Amadou', 'zone' => 'Aguie-Gazaoua'],
