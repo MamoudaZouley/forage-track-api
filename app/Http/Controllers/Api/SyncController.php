@@ -8,20 +8,26 @@ use Illuminate\Http\Request;
 
 class SyncController extends Controller
 {
-    public function __construct(private KoboSyncService $koboSync) {}
+  
 
     public function sync(Request $request)
     {
+        set_time_limit(600); // 10 minutes
+        ini_set('memory_limit', '512M');
+        
         try {
-            // Lance la sync en arrière-plan
-            dispatch(function() {
-                $koboSync = new \App\Services\KoboSyncService();
-                $koboSync->syncAll();
-            })->afterResponse();
+            $koboSync = new \App\Services\KoboSyncService();
+            $results = $koboSync->syncAll();
+            
+            // Supprime les doublons supervisions
+            $toKeep = \App\Models\Supervision::selectRaw('MAX(id) as id')->groupBy('well_id')->pluck('id');
+            \App\Models\Alert::whereNotIn('supervision_id', $toKeep)->delete();
+            \App\Models\Supervision::whereNotIn('id', $toKeep)->delete();
 
             return response()->json([
                 'success' => true,
-                'message' => 'Synchronisation démarrée en arrière-plan',
+                'message' => 'Synchronisation terminée',
+                'results' => $results,
             ]);
         } catch (\Exception $e) {
             return response()->json([
