@@ -195,6 +195,8 @@ class KoboSyncService
                     'pump_condition' => $s['pump_section/pump_condition'] ?? null,
                     'inverter_working' => $s['solar_section/inverter_working'] ?? null,
                     'water_flow' => $s['water_section/water_flow'] ?? null,
+                    'meter_reading' => isset($s['water_section/meter_reading']) ? (float) $s['water_section/meter_reading'] : null,
+                    'weekly_consumption' => isset($s['water_section/weekly_consumption']) ? (float) $s['water_section/weekly_consumption'] : null,
                 ];
 
                 $existing = Supervision::where('kobo_id', $koboId)->first();

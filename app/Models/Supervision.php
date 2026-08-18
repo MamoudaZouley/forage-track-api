@@ -13,7 +13,8 @@ class Supervision extends Model
         'kobo_id', 'well_id', 'well_code', 'supervisor_name', 'supervisor_username',
         'visit_date', 'submission_time', 'overall_status',
         'duration_minutes', 'week_number',
-        'pump_working', 'pump_condition', 'inverter_working', 'water_flow'
+        'pump_working', 'pump_condition', 'inverter_working', 'water_flow',
+        'meter_reading', 'weekly_consumption'
     ];
 
     public function well()

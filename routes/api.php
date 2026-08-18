@@ -31,6 +31,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/wells/{well}/supervisions', [SupervisionController::class, 'byWell']);
 
     // Supervisions
+    Route::get('/supervisions/water-consumption', [SupervisionController::class, 'waterConsumption']);
     Route::get('/maintenances/export', [MaintenanceController::class, 'export']);
     Route::get('/maintenances/export-data', [MaintenanceController::class, 'exportData']);
     Route::get('/supervisions', [SupervisionController::class, 'index']);

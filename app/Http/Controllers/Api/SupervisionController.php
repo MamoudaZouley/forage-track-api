@@ -283,4 +283,69 @@ class SupervisionController extends Controller
             'totals' => $totals,
         ]);
     }
+        public function waterConsumption(Request $request)
+    {
+        $supervisions = Supervision::with('well')
+            ->whereNotNull('meter_reading')
+            ->orderBy('visit_date', 'desc')
+            ->get();
+
+        // Stats globales
+        $totalConsumption = $supervisions->sum('weekly_consumption');
+        $avgConsumption = $supervisions->avg('weekly_consumption');
+        $totalWells = $supervisions->pluck('well_id')->unique()->count();
+
+        // Par puits
+        $byWell = $supervisions->groupBy('well_id')->map(function($group) {
+            $last = $group->first();
+            return [
+                'well_id' => $last->well_id,
+                'well_code' => $last->well_code,
+                'village' => $last->well?->village ?? '—',
+                'region' => $last->well?->region ?? '—',
+                'supervisor' => $last->well?->supervisor ?? '—',
+                'zone' => $last->well?->zone ?? '—',
+                'last_reading' => $last->meter_reading,
+                'last_consumption' => $last->weekly_consumption,
+                'last_visit' => $last->visit_date,
+                'water_flow' => $last->water_flow,
+                'total_readings' => $group->count(),
+            ];
+        })->sortByDesc('last_consumption')->values();
+
+        // Par mois
+        $byMonth = $supervisions->groupBy(function($s) {
+            return \Carbon\Carbon::parse($s->visit_date)->format('Y-m');
+        })->map(function($group, $month) {
+            return [
+                'month' => $month,
+                'total_consumption' => round($group->sum('weekly_consumption'), 2),
+                'avg_consumption' => round($group->avg('weekly_consumption'), 2),
+                'wells_count' => $group->pluck('well_id')->unique()->count(),
+            ];
+        })->sortKeys()->values();
+
+        // Par zone
+        $byZone = $supervisions->groupBy(function($s) {
+            return $s->well?->zone ?? 'Inconnu';
+        })->map(function($group, $zone) {
+            return [
+                'zone' => $zone,
+                'total_consumption' => round($group->sum('weekly_consumption'), 2),
+                'avg_consumption' => round($group->avg('weekly_consumption'), 2),
+                'wells_count' => $group->pluck('well_id')->unique()->count(),
+            ];
+        })->sortByDesc('total_consumption')->values();
+
+        return response()->json([
+            'stats' => [
+                'total_consumption' => round($totalConsumption, 2),
+                'avg_consumption' => round($avgConsumption, 2),
+                'total_wells' => $totalWells,
+            ],
+            'by_well' => $byWell,
+            'by_month' => $byMonth,
+            'by_zone' => $byZone,
+        ]);
+    }
 }
