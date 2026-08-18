@@ -108,8 +108,14 @@ class MaintenanceController extends Controller
         public function technicianStats()
     {
         $maintenances = \App\Models\Maintenance::whereNotNull('team_leader_name')
-            ->where('team_leader_name', '!=', '')
-            ->get();
+        ->where('team_leader_name', '!=', '')
+        ->get()
+        ->map(function($m) {
+            if (strtolower(trim($m->team_leader_name)) === 'mauntaka') {
+                $m->team_leader_name = 'Maman Mountaka Abdou';
+            }
+            return $m;
+        });
 
         $stats = $maintenances->groupBy('team_leader_name')->map(function($group, $name) {
             $total = $group->count();

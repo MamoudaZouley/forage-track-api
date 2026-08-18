@@ -41,10 +41,35 @@ class SupervisionController extends Controller
     {
         $supervisions = Supervision::with(['well', 'alerts'])->get();
 
-        $stats = $supervisions->groupBy('supervisor_username')->map(function($group, $username) {
+        // Semaine en cours — calculé une seule fois
+        $today = now();
+        $day = (int) $today->format('d');
+        $weekStart = $day <= 7 ? 1 : ($day <= 14 ? 8 : ($day <= 21 ? 15 : 22));
+        $weekEnd = $day <= 7 ? 7 : ($day <= 14 ? 14 : ($day <= 21 ? 21 : (int) $today->format('t')));
+
+        // Puits assignés par superviseur — une seule requête
+        $assignedWells = \App\Models\Well::whereNotNull('supervisor')
+            ->where('supervisor', '!=', 'pro_m')
+            ->select('supervisor', \DB::raw('count(*) as total'))
+            ->groupBy('supervisor')
+            ->pluck('total', 'supervisor');
+
+        // Visites semaine en cours par superviseur — une seule requête
+        $weekVisitsBySup = \DB::table('supervision_history')
+            ->whereYear('visit_date', $today->year)
+            ->whereMonth('visit_date', $today->month)
+            ->whereDay('visit_date', '>=', $weekStart)
+            ->whereDay('visit_date', '<=', $weekEnd)
+            ->select('supervisor_username', \DB::raw('count(*) as total'))
+            ->groupBy('supervisor_username')
+            ->pluck('total', 'supervisor_username');
+
+        $stats = $supervisions->groupBy('supervisor_username')->map(function($group, $username) use ($assignedWells, $weekVisitsBySup) {
             $total = $group->count();
 
-            $wellsVisited = $group->pluck('well_id')->filter()->unique()->count();
+            $wellsAssigned = $assignedWells[$username] ?? 0;
+            $weekVisits = $weekVisitsBySup[$username] ?? 0;
+
             $totalAlerts = $group->sum(fn($s) => $s->alerts->count());
             $withAlerts = $group->filter(fn($s) => $s->alerts->count() > 0)->count();
             $detectionRate = $total > 0 ? round($withAlerts / $total * 100, 1) : 0;
@@ -73,8 +98,8 @@ class SupervisionController extends Controller
                 'supervisor' => $supervisor,
                 'region' => $region,
                 'zone' => $zone,
-                'total_visits' => $total,
-                'wells_visited' => $wellsVisited,
+                'total_visits' => $weekVisits,
+                'wells_visited' => $wellsAssigned,
                 'total_alerts' => $totalAlerts,
                 'detection_rate' => $detectionRate,
                 'by_status' => $byStatus,
