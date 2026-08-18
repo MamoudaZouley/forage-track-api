@@ -20,10 +20,18 @@ class WellController extends Controller
             $query->where('status', $request->status);
         }
 
+        if ($request->supervisor) {
+            $query->where('supervisor', $request->supervisor);
+        }
+
+        if ($request->zone) {
+            $query->where('zone', $request->zone);
+        }
+
         if ($request->search) {
             $query->where(function($q) use ($request) {
                 $q->where('code', 'like', "%{$request->search}%")
-                  ->orWhere('village', 'like', "%{$request->search}%");
+                ->orWhere('village', 'like', "%{$request->search}%");
             });
         }
 
@@ -39,5 +47,31 @@ class WellController extends Controller
         $well->supervisions_count = $well->supervisions->count();
 
         return response()->json($well);
+    }
+    public function filters()
+    {
+        $supervisors = Well::whereNotNull('supervisor')
+            ->where('supervisor', '!=', 'pro_m')
+            ->distinct()
+            ->get(['supervisor', 'supervisor_name', 'zone'])
+            ->groupBy('supervisor')
+            ->map(fn($g) => [
+                'username' => $g->first()->supervisor,
+                'name' => $g->first()->supervisor_name ?? $g->first()->supervisor,
+                'zone' => $g->first()->zone,
+            ])
+            ->sortBy('name')
+            ->values();
+
+        $zones = Well::whereNotNull('zone')
+            ->distinct('zone')
+            ->pluck('zone')
+            ->sort()
+            ->values();
+
+        return response()->json([
+            'supervisors' => $supervisors,
+            'zones' => $zones,
+        ]);
     }
 }

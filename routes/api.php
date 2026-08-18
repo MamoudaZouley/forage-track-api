@@ -22,6 +22,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
     // Dashboard
     Route::get('/dashboard', [DashboardController::class, 'index']);
+    Route::get('/wells/filters', [WellController::class, 'filters']);
 
     // Puits
     Route::get('/wells', [WellController::class, 'index']);

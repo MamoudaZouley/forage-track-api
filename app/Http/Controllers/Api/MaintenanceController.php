@@ -31,6 +31,17 @@ class MaintenanceController extends Controller
                 ->orWhere('village', 'like', "%{$request->search}%")
                 ->orWhere('technician_username', 'like', "%{$request->search}%");
             });
+        if ($request->supervisor) {
+            $query->whereHas('well', function($q) use ($request) {
+                $q->where('supervisor', $request->supervisor);
+            });
+        }
+
+        if ($request->zone) {
+            $query->whereHas('well', function($q) use ($request) {
+                $q->where('zone', $request->zone);
+            });
+        }
         }
 
         $maintenances = $query->orderBy('visit_date', 'desc')->paginate(15);
